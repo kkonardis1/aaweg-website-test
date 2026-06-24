@@ -7,34 +7,35 @@
   <title>Aaweg GmbH – SAP Architecture &amp; Engineering</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Nunito:wght@800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Montserrat:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
+    /* ── TRAIL OF BITS PALETTE ── */
     :root {
       font-size: 18px;
-      --bg:      #060A14;
-      --bg-2:    #0B1222;
-      --bg-3:    #101828;
-      --surface: #0D1628;
-      --sur-2:   #131F35;
-      --border:       rgba(255,255,255,.07);
-      --border-hi:    rgba(93,139,60,.35);
-      --green:    #5D8B3C;
-      --green-lt: #7AB354;
-      --green-dk: #3D6126;
-      --red:      #E63946;
-      --red-dk:   #C02A36;
-      --blue:     #4F8EF7;
-      --blue-lt:  #7FB0FF;
-      --teal:     #00D4AA;
-      --purple:   #7C3AED;
-      --amber:    #F59E0B;
-      --text:   #F0F4FF;
-      --text-2: #B4BFCE;
-      --text-3: #6B7A99;
-      --text-4: #3D4D6A;
+      --bg:      #10181F;
+      --bg-2:    #0D151C;
+      --bg-3:    #2A333D;
+      --surface: #1A2530;
+      --sur-2:   #2A333D;
+      --border:       rgba(130,148,163,.18);
+      --border-hi:    rgba(199,52,79,.45);
+      --green:    #C7344F;
+      --green-lt: #E84060;
+      --green-dk: #98253A;
+      --red:      #C7344F;
+      --red-dk:   #AD2B43;
+      --blue:     #8294A3;
+      --blue-lt:  #DAE2EB;
+      --teal:     #8294A3;
+      --purple:   #AD2B43;
+      --amber:    #DAE2EB;
+      --text:   #F0F4F7;
+      --text-2: #DAE2EB;
+      --text-3: #8294A3;
+      --text-4: #576675;
       --r:    12px;
       --r-lg: 20px;
-      --r-sm: 8px;
+      --r-sm: 6px;
       --nav-h: 80px;
       --max-w: 1200px;
       --t:  .2s ease;
@@ -44,11 +45,12 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Rubik', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg); color: var(--text);
       line-height: 1.6; overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
+    h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; }
     a { color: inherit; text-decoration: none; }
     button { cursor: pointer; font-family: inherit; border: none; background: none; }
     input, textarea, select { font-family: inherit; }
@@ -60,6 +62,7 @@
       display: inline-flex; align-items: center; gap: 8px;
       font-size: 0.75rem; font-weight: 700; letter-spacing: .14em;
       text-transform: uppercase; color: var(--green); margin-bottom: 14px;
+      font-family: 'Roboto Mono', monospace;
     }
     .sec-label::before { content:''; display:block; width:18px; height:2px; background:var(--green); }
     .sec-title {
@@ -71,24 +74,26 @@
     /* ── NAV ── */
     .nav {
       position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h);
-      z-index: 1000; transition: background var(--t), border-color var(--t);
+      z-index: 1000; transition: background var(--t), border-color var(--t), box-shadow var(--t);
       border-bottom: 1px solid transparent;
     }
     .nav.scrolled {
-      background: rgba(6,10,20,.92);
+      background: rgba(13,21,28,.97);
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-bottom-color: var(--border);
+      box-shadow: 0 2px 24px rgba(0,0,0,.5);
     }
     .nav__inner { display:flex; align-items:center; justify-content:space-between; height:100%; }
     .nav__logo  { line-height:1; }
     .nav__logo-name {
-      font-family: 'Nunito','Arial Rounded MT Bold',sans-serif;
-      font-size: 1.75rem; font-weight: 900; color: var(--green); letter-spacing: -.01em;
-      display:flex; align-items:baseline; gap:.15em;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.75rem; font-weight: 900; color: var(--text); letter-spacing: -.01em;
+      display:flex; align-items:baseline; gap:.05em;
     }
+    .nav__logo-accent { color: var(--green); }
     .nav__logo-sub {
-      font-size:.58em; font-weight:700; opacity:.5; letter-spacing:.05em;
-      text-transform:uppercase; font-family:'JetBrains Mono',monospace;
+      font-size:.52em; font-weight:700; opacity:.5; letter-spacing:.06em;
+      text-transform:uppercase; font-family:'Roboto Mono',monospace; margin-left:.2em;
     }
     .nav__links { display:flex; align-items:center; gap:2px; list-style:none; }
     .nav__links a {
@@ -96,13 +101,13 @@
       padding:6px 11px; border-radius:var(--r-sm);
       transition:color var(--t), background var(--t);
     }
-    .nav__links a:hover { color:var(--text); background:rgba(255,255,255,.05); }
+    .nav__links a:hover { color:var(--text); background:rgba(199,52,79,.1); }
     .nav__cta {
       background:var(--red)!important; color:#fff!important; font-weight:700!important;
       padding:8px 20px!important; border-radius:var(--r-sm)!important;
       transition:background var(--t),transform var(--t),box-shadow var(--t)!important;
     }
-    .nav__cta:hover { background:var(--red-dk)!important; transform:translateY(-1px); box-shadow:0 8px 24px rgba(230,57,70,.35)!important; }
+    .nav__cta:hover { background:var(--red-dk)!important; transform:translateY(-1px); box-shadow:0 8px 24px rgba(199,52,79,.32)!important; }
 
     .nav__burger { display:none; flex-direction:column; gap:5px; padding:8px; }
     .nav__burger span { display:block; width:22px; height:2px; background:var(--text); border-radius:2px; transition:transform var(--t),opacity var(--t); }
@@ -128,15 +133,15 @@
     .hero__bg {
       position:absolute; inset:0;
       background:
-        radial-gradient(ellipse 75% 55% at 50% -8%, rgba(93,139,60,.15) 0%, transparent 60%),
-        radial-gradient(ellipse 45% 40% at 85% 60%, rgba(79,142,247,.07) 0%, transparent 55%),
-        radial-gradient(ellipse 35% 30% at 10% 80%, rgba(0,212,170,.05) 0%, transparent 50%);
+        radial-gradient(ellipse 75% 55% at 50% -8%, rgba(199,52,79,.12) 0%, transparent 60%),
+        radial-gradient(ellipse 45% 40% at 85% 60%, rgba(130,148,163,.07) 0%, transparent 55%),
+        radial-gradient(ellipse 35% 30% at 10% 80%, rgba(199,52,79,.05) 0%, transparent 50%);
     }
     .hero__grid {
       position:absolute; inset:0;
       background-image:
-        linear-gradient(rgba(93,139,60,.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(93,139,60,.045) 1px, transparent 1px);
+        linear-gradient(rgba(199,52,79,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(199,52,79,.05) 1px, transparent 1px);
       background-size:48px 48px;
       mask-image:radial-gradient(ellipse 90% 80% at 50% 40%, black 20%, transparent 75%);
     }
@@ -144,11 +149,12 @@
 
     .hero__badge {
       display:inline-flex; align-items:center; gap:8px;
-      background:rgba(93,139,60,.1); border:1px solid rgba(93,139,60,.26);
-      border-radius:100px; padding:5px 16px 5px 8px;
+      background:rgba(199,52,79,.1); border:1px solid rgba(199,52,79,.25);
+      border-radius:2px; padding:5px 16px 5px 8px;
       font-size:.75rem; font-weight:600; color:var(--green-lt); margin-bottom:28px;
+      font-family:'Roboto Mono',monospace;
     }
-    .hero__badge-dot { width:7px; height:7px; background:var(--teal); border-radius:50%; animation:pulse 2.2s ease infinite; }
+    .hero__badge-dot { width:7px; height:7px; background:var(--green-lt); border-radius:50%; animation:pulse 2.2s ease infinite; }
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.4)} }
 
     .hero__title {
@@ -157,7 +163,7 @@
     }
     .hero__title em {
       font-style:normal;
-      background:linear-gradient(130deg,var(--green) 10%,var(--teal) 90%);
+      background:linear-gradient(130deg,var(--green) 10%,var(--green-lt) 90%);
       -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
     }
     .hero__sub { font-size:1rem; color:var(--text-2); line-height:1.72; max-width:580px; margin-bottom:44px; }
@@ -165,15 +171,15 @@
 
     .btn { display:inline-flex; align-items:center; gap:8px; padding:14px 28px; border-radius:var(--r-sm); font-size:1rem; font-weight:700; transition:all var(--t); white-space:nowrap; }
     .btn-red   { background:var(--red); color:#fff; }
-    .btn-red:hover   { background:var(--red-dk); transform:translateY(-2px); box-shadow:0 8px 32px rgba(230,57,70,.35); }
+    .btn-red:hover   { background:var(--red-dk); transform:translateY(-2px); box-shadow:0 8px 32px rgba(199,52,79,.3); }
     .btn-ghost { background:transparent; color:var(--text-2); border:1px solid var(--border); }
-    .btn-ghost:hover { background:var(--surface); color:var(--text); border-color:rgba(255,255,255,.15); }
+    .btn-ghost:hover { background:var(--surface); color:var(--text); border-color:rgba(199,52,79,.25); }
 
     .hero__stats { display:flex; flex-wrap:wrap; border-top:1px solid var(--border); padding-top:28px; gap:0; }
     .hero__stat  { display:flex; flex-direction:column; padding:0 32px 0 0; margin-right:32px; border-right:1px solid var(--border); }
     .hero__stat:last-child { border-right:none; padding-right:0; margin-right:0; }
-    .hero__stat-v { font-size:2rem; font-weight:800; line-height:1; letter-spacing:-.03em; }
-    .hero__stat-l { font-size:.75rem; color:var(--text-3); margin-top:4px; font-weight:500; }
+    .hero__stat-v { font-size:2rem; font-weight:800; line-height:1; letter-spacing:-.03em; color:var(--green); font-family:'Montserrat',sans-serif; }
+    .hero__stat-l { font-size:.75rem; color:var(--text-3); margin-top:4px; font-weight:500; font-family:'Roboto Mono',monospace; }
 
     /* ── SERVICES ── */
     .services { background:var(--bg-2); }
@@ -185,35 +191,35 @@
       border-radius:var(--r-lg); overflow:hidden; position:relative;
       transition:border-color var(--ts),transform var(--t),box-shadow var(--ts);
     }
-    .svc-card:hover { transform:translateY(-5px); border-color:rgba(93,139,60,.28); box-shadow:0 20px 60px rgba(0,0,0,.4); }
+    .svc-card:hover { transform:translateY(-5px); border-color:rgba(199,52,79,.28); box-shadow:0 20px 60px rgba(199,52,79,.1); }
 
     .svc-visual {
       height:108px; display:flex; align-items:center; justify-content:space-between;
       padding:0 26px; position:relative; overflow:hidden;
     }
     .svc-visual-num {
-      font-size:7rem; font-weight:900; line-height:1; color:rgba(255,255,255,.035);
-      font-family:'JetBrains Mono',monospace; position:absolute; right:12px; bottom:-14px;
+      font-size:7rem; font-weight:900; line-height:1; color:rgba(255,255,255,.03);
+      font-family:'Roboto Mono',monospace; position:absolute; right:12px; bottom:-14px;
       letter-spacing:-.06em; user-select:none; pointer-events:none;
     }
     .svc-visual-sym { font-size:2.8rem; line-height:1; position:relative; z-index:1; }
     .svc-visual-tag {
       font-size:.75rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
-      padding:4px 11px; border-radius:100px; border:1px solid currentColor;
-      position:relative; z-index:1; opacity:.7;
+      padding:4px 11px; border-radius:2px; border:1px solid currentColor;
+      position:relative; z-index:1; opacity:.7; font-family:'Roboto Mono',monospace;
     }
 
-    .svc-1 .svc-visual { background:linear-gradient(135deg,rgba(79,142,247,.12),rgba(79,142,247,.03)); }
+    .svc-1 .svc-visual { background:linear-gradient(135deg,rgba(130,148,163,.12),rgba(130,148,163,.04)); }
     .svc-1 .svc-visual-sym,.svc-1 .svc-visual-tag,.svc-1 .svc-cta,.svc-1 .svc-feats li::before { color:var(--blue-lt); }
-    .svc-2 .svc-visual { background:linear-gradient(135deg,rgba(0,212,170,.12),rgba(0,212,170,.03)); }
-    .svc-2 .svc-visual-sym,.svc-2 .svc-visual-tag,.svc-2 .svc-cta,.svc-2 .svc-feats li::before { color:var(--teal); }
-    .svc-3 .svc-visual { background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(245,158,11,.03)); }
+    .svc-2 .svc-visual { background:linear-gradient(135deg,rgba(199,52,79,.14),rgba(199,52,79,.04)); }
+    .svc-2 .svc-visual-sym,.svc-2 .svc-visual-tag,.svc-2 .svc-cta,.svc-2 .svc-feats li::before { color:var(--green-lt); }
+    .svc-3 .svc-visual { background:linear-gradient(135deg,rgba(218,226,235,.1),rgba(218,226,235,.03)); }
     .svc-3 .svc-visual-sym,.svc-3 .svc-visual-tag,.svc-3 .svc-cta,.svc-3 .svc-feats li::before { color:var(--amber); }
-    .svc-4 .svc-visual { background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(124,58,237,.03)); }
-    .svc-4 .svc-visual-sym,.svc-4 .svc-visual-tag,.svc-4 .svc-cta,.svc-4 .svc-feats li::before { color:#A78BFA; }
+    .svc-4 .svc-visual { background:linear-gradient(135deg,rgba(199,52,79,.12),rgba(199,52,79,.03)); }
+    .svc-4 .svc-visual-sym,.svc-4 .svc-visual-tag,.svc-4 .svc-cta,.svc-4 .svc-feats li::before { color:var(--green); }
 
     .svc-body  { padding:22px 26px 26px; }
-    .svc-title { font-size:1.25rem; font-weight:800; letter-spacing:-.02em; margin-bottom:9px; }
+    .svc-title { font-size:1.25rem; font-weight:800; letter-spacing:-.02em; margin-bottom:9px; font-family:'Montserrat',sans-serif; }
     .svc-desc  { font-size:1rem; color:var(--text-2); line-height:1.65; margin-bottom:16px; }
     .svc-feats { list-style:none; margin-bottom:18px; }
     .svc-feats li { display:flex; align-items:flex-start; gap:8px; font-size:1rem; color:var(--text-3); padding:3px 0; }
@@ -226,41 +232,45 @@
     /* ── THE FIELD NOTES ── */
     .fnotes { background:var(--bg-3); border-top:1px solid var(--border); }
     .fnotes__intro { font-size:1rem; color:var(--text-2); line-height:1.72; max-width:640px; margin-bottom:52px; }
-    .fnotes__grid  { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .fnotes__grid  { display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; }
     .fn-wide       { grid-column:1/-1; }
 
     .fn-card {
       background:var(--surface); border:1px solid var(--border);
+      border-left:3px solid transparent;
       border-radius:var(--r-lg); padding:26px 26px 22px;
       display:flex; flex-direction:column;
-      transition:border-color var(--ts),transform var(--t);
+      transition:border-color var(--ts),background var(--t);
     }
-    .fn-card:hover { transform:translateY(-3px); border-color:rgba(255,255,255,.13); }
+    .fn-card:hover { background:var(--sur-2); border-left-color:var(--green); }
 
     .fn-wide.fn-card { padding:30px; flex-direction:row; gap:44px; align-items:flex-start; }
     .fn-main { flex:1; }
     .fn-outcome { flex-shrink:0; width:230px; display:flex; flex-direction:column; gap:10px; padding-top:2px; }
 
-    .fn-dispatch { font-size:.75rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--text-4); font-family:'JetBrains Mono',monospace; margin-bottom:11px; }
-    .fn-ind { display:inline-flex; align-items:center; gap:6px; font-size:.75rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--text-3); margin-bottom:11px; }
+    .fn-dispatch { font-size:.75rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--text-4); font-family:'Roboto Mono',monospace; margin-bottom:11px; }
+    .fn-ind { display:inline-flex; align-items:center; gap:6px; font-size:.75rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--text-3); margin-bottom:11px; font-family:'Roboto Mono',monospace; }
     .fn-ind-dot { width:6px; height:6px; border-radius:50%; display:inline-block; flex-shrink:0; }
-    .fn-title { font-size:1.25rem; font-weight:800; line-height:1.3; letter-spacing:-.01em; margin-bottom:11px; }
+    .fn-title { font-size:1.25rem; font-weight:800; line-height:1.3; letter-spacing:-.01em; margin-bottom:11px; font-family:'Montserrat',sans-serif; }
     .fn-wide .fn-title { font-size:1.25rem; }
     .fn-body  { font-size:1rem; color:var(--text-2); line-height:1.68; flex:1; }
     .fn-wide .fn-body { font-size:1rem; }
 
     .fn-result {
       margin-top:18px; display:flex; align-items:flex-start; gap:10px;
-      background:rgba(0,212,170,.055); border:1px solid rgba(0,212,170,.14);
-      border-radius:var(--r-sm); padding:11px 14px;
+      background:rgba(199,52,79,.08); border:1px solid rgba(199,52,79,.22);
+      border-radius:2px; padding:11px 14px;
     }
     .fn-outcome .fn-result { margin-top:0; flex-direction:column; gap:3px; padding:14px; }
-    .fn-result-v { font-size:1rem; font-weight:800; color:var(--teal); white-space:nowrap; }
+    .fn-result-v { font-size:1rem; font-weight:800; color:var(--green-lt); white-space:nowrap; font-family:'Montserrat',sans-serif; }
     .fn-outcome .fn-result-v { font-size:1.25rem; }
     .fn-result-l { font-size:.75rem; color:var(--text-3); }
 
     .fn-tags { display:flex; flex-wrap:wrap; gap:5px; margin-top:14px; }
-    .fn-tag  { font-size:.75rem; background:var(--bg-2); border:1px solid var(--border); border-radius:100px; padding:3px 9px; color:var(--text-4); font-family:'JetBrains Mono',monospace; }
+    .fn-tag  { font-size:.75rem; background:var(--bg-3); border:1px solid var(--border); border-radius:2px; padding:3px 9px; color:var(--text-4); font-family:'Roboto Mono',monospace; }
+    .fn-microcta { display:inline-flex; align-items:center; gap:6px; font-size:.875rem; font-weight:700; color:var(--green-lt); margin-top:16px; transition:gap var(--t),color var(--t); }
+    .fn-microcta::after { content:'→'; }
+    .fn-microcta:hover { color:var(--amber); gap:10px; }
 
     /* ── THE MOAT ── */
     .moat {
@@ -268,95 +278,96 @@
       background:linear-gradient(180deg,var(--bg-2) 0%,var(--bg-3) 50%,var(--bg-2) 100%);
     }
     .moat__grid { display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:center; }
-    .moat__de-title { font-size:clamp(1.6rem,3.5vw,2.3rem); font-weight:800; letter-spacing:-.022em; line-height:1.18; margin-bottom:16px; }
+    .moat__de-title { font-size:clamp(1.6rem,3.5vw,2.3rem); font-weight:800; letter-spacing:-.022em; line-height:1.18; margin-bottom:16px; font-family:'Montserrat',sans-serif; }
     .moat__body { font-size:1rem; color:var(--text-2); line-height:1.76; margin-bottom:18px; }
     .moat__trust { display:flex; flex-direction:column; gap:9px; margin-top:8px; }
     .moat__ti { display:flex; align-items:center; gap:11px; font-size:1rem; color:var(--text-2); }
-    .moat__ti-ico { width:32px; height:32px; flex-shrink:0; background:rgba(93,139,60,.08); border:1px solid rgba(93,139,60,.2); border-radius:var(--r-sm); display:flex; align-items:center; justify-content:center; font-size:.9rem; }
+    .moat__ti-ico { width:32px; height:32px; flex-shrink:0; background:rgba(199,52,79,.08); border:1px solid rgba(199,52,79,.2); border-radius:var(--r-sm); display:flex; align-items:center; justify-content:center; font-size:.9rem; }
 
-    .cap-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg); padding:26px; }
+    .cap-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg); padding:26px; box-shadow:0 4px 24px rgba(199,52,79,.08); }
     .cap-stats { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:20px; }
     .cap-stat { display:flex; flex-direction:column; }
-    .cap-stat-v { font-size:1.75rem; font-weight:800; letter-spacing:-.03em; line-height:1; }
-    .cap-stat-l { font-size:.75rem; color:var(--text-3); margin-top:4px; font-weight:500; }
+    .cap-stat-v { font-size:1.75rem; font-weight:800; letter-spacing:-.03em; line-height:1; color:var(--green); font-family:'Montserrat',sans-serif; }
+    .cap-stat-l { font-size:.75rem; color:var(--text-3); margin-top:4px; font-weight:500; font-family:'Roboto Mono',monospace; }
     .cap-div { border:none; border-top:1px solid var(--border); margin:16px 0; }
-    .cap-lbl { font-size:.75rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--text-4); margin-bottom:9px; }
+    .cap-lbl { font-size:.75rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--text-4); margin-bottom:9px; font-family:'Roboto Mono',monospace; }
     .cap-tags { display:flex; flex-wrap:wrap; gap:6px; }
-    .ctag { font-size:.75rem; font-weight:600; padding:3px 10px; border-radius:100px; background:var(--sur-2); border:1px solid var(--border); color:var(--text-2); }
-    .ctag.sap { background:rgba(79,142,247,.08); border-color:rgba(79,142,247,.2); color:var(--blue-lt); }
-    .ctag.mod { background:rgba(0,212,170,.07); border-color:rgba(0,212,170,.18); color:var(--teal); }
+    .ctag { font-size:.75rem; font-weight:600; padding:3px 10px; border-radius:2px; background:var(--sur-2); border:1px solid var(--border); color:var(--text-2); }
+    .ctag.sap { background:rgba(130,148,163,.1); border-color:rgba(130,148,163,.25); color:#DAE2EB; }
+    .ctag.mod { background:rgba(199,52,79,.08); border-color:rgba(199,52,79,.2); color:#E84060; }
     .cap-langs { display:flex; gap:7px; flex-wrap:wrap; margin-top:10px; }
-    .clang { font-size:.75rem; font-weight:700; background:var(--bg-2); border:1px solid var(--border); border-radius:6px; padding:4px 9px; color:var(--text-2); font-family:'JetBrains Mono',monospace; }
+    .clang { font-size:.75rem; font-weight:700; background:var(--bg-2); border:1px solid var(--border); border-radius:2px; padding:4px 9px; color:var(--text-2); font-family:'Roboto Mono',monospace; }
 
     /* ── TECH STACK ── */
     .stack { background:var(--bg-2); }
     .stack__split { display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:58px; }
     .stack-panel  { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg); overflow:hidden; }
     .stack-ph { padding:17px 22px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; }
-    .stack-ph-title { font-size:1rem; font-weight:700; }
-    .stack-ph-sub   { font-size:.75rem; color:var(--text-3); margin-left:auto; font-family:'JetBrains Mono',monospace; }
+    .stack-ph-title { font-size:1rem; font-weight:700; font-family:'Montserrat',sans-serif; }
+    .stack-ph-sub   { font-size:.75rem; color:var(--text-3); margin-left:auto; font-family:'Roboto Mono',monospace; }
     .stack-items { padding:18px 22px; display:flex; flex-direction:column; gap:12px; }
     .stack-row  { display:flex; align-items:center; gap:12px; }
-    .stack-name { font-size:.875rem; font-weight:600; color:var(--text-2); font-family:'JetBrains Mono',monospace; width:130px; flex-shrink:0; }
-    .stack-bw   { flex:1; height:4px; background:var(--bg); border-radius:2px; overflow:hidden; }
+    .stack-name { font-size:.875rem; font-weight:600; color:var(--text-2); font-family:'Roboto Mono',monospace; width:130px; flex-shrink:0; }
+    .stack-bw   { flex:1; height:4px; background:rgba(130,148,163,.12); border-radius:2px; overflow:hidden; }
     .stack-bar  { height:100%; border-radius:2px; width:0%; transition:width 1.4s cubic-bezier(.4,0,.2,1); }
-    .stack-yrs  { font-size:.75rem; color:var(--text-4); font-family:'JetBrains Mono',monospace; width:100px; text-align:right; flex-shrink:0; }
+    .stack-yrs  { font-size:.75rem; color:var(--text-4); font-family:'Roboto Mono',monospace; width:100px; text-align:right; flex-shrink:0; }
 
     /* ── CONTACT ── */
     .contact__grid { display:grid; grid-template-columns:1fr 1.6fr; gap:60px; align-items:start; }
     .contact__stick { position:sticky; top:calc(var(--nav-h) + 28px); }
 
     .rate-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg); padding:22px; margin-top:26px; }
-    .rate-lbl  { font-size:.75rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--text-3); margin-bottom:13px; }
+    .rate-lbl  { font-size:.75rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--text-3); margin-bottom:13px; font-family:'Roboto Mono',monospace; }
     .rate-row  { display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-bottom:1px solid var(--border); }
     .rate-row:last-of-type { border-bottom:none; }
     .rate-name { font-size:1rem; color:var(--text-2); }
-    .rate-val  { font-size:1rem; font-weight:700; font-family:'JetBrains Mono',monospace; }
+    .rate-val  { font-size:1rem; font-weight:700; font-family:'Roboto Mono',monospace; }
     .rate-note { font-size:.75rem; color:var(--text-4); margin-top:9px; }
     .trust-list { display:flex; flex-direction:column; gap:9px; margin-top:20px; }
     .trust-item { display:flex; align-items:center; gap:9px; font-size:1rem; color:var(--text-2); }
     .trust-ck   { color:var(--green-lt); flex-shrink:0; }
 
-    .form-card  { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg); padding:34px; }
-    .form-title { font-size:1.25rem; font-weight:800; letter-spacing:-.015em; margin-bottom:5px; }
+    .form-card  { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg); padding:34px; box-shadow:0 4px 32px rgba(199,52,79,.1); }
+    .form-title { font-size:1.25rem; font-weight:800; letter-spacing:-.015em; margin-bottom:5px; font-family:'Montserrat',sans-serif; }
     .form-sub   { font-size:1rem; color:var(--text-3); margin-bottom:24px; }
     .f-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
     .f-grp { display:flex; flex-direction:column; gap:5px; margin-bottom:12px; }
-    .f-lbl { font-size:.75rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--text-3); }
+    .f-lbl { font-size:.75rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--text-3); font-family:'Roboto Mono',monospace; }
     .f-inp,.f-sel,.f-ta { background:var(--bg-2); border:1px solid var(--border); border-radius:var(--r-sm); padding:11px 13px; font-size:1rem; color:var(--text); transition:border-color var(--t),box-shadow var(--t); outline:none; width:100%; }
     .f-inp::placeholder,.f-ta::placeholder { color:var(--text-4); }
-    .f-inp:focus,.f-sel:focus,.f-ta:focus { border-color:rgba(93,139,60,.5); box-shadow:0 0 0 3px rgba(93,139,60,.08); }
+    .f-inp:focus,.f-sel:focus,.f-ta:focus { border-color:rgba(199,52,79,.5); box-shadow:0 0 0 3px rgba(199,52,79,.1); }
     .f-inp.err { border-color:var(--red); }
-    .f-sel { appearance:none; -webkit-appearance:none; cursor:pointer; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 11 11'%3E%3Cpath fill='%236B7A99' d='M5.5 7.5L.5 2.5h10z'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; padding-right:32px; }
+    .f-sel { appearance:none; -webkit-appearance:none; cursor:pointer; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 11 11'%3E%3Cpath fill='%23576675' d='M5.5 7.5L.5 2.5h10z'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; padding-right:32px; }
     .f-sel option { background:var(--surface); }
     .f-ta { resize:vertical; min-height:88px; }
-    .f-submit { width:100%; background:var(--red); color:#fff; padding:15px 28px; border-radius:var(--r-sm); font-size:1rem; font-weight:800; margin-top:6px; transition:background var(--t),transform var(--t),box-shadow var(--t); }
-    .f-submit:hover { background:var(--red-dk); transform:translateY(-2px); box-shadow:0 8px 32px rgba(230,57,70,.35); }
+    .f-submit { width:100%; background:var(--red); color:#fff; padding:15px 28px; border-radius:var(--r-sm); font-size:1rem; font-weight:800; margin-top:6px; transition:background var(--t),transform var(--t),box-shadow var(--t); font-family:'Montserrat',sans-serif; }
+    .f-submit:hover { background:var(--red-dk); transform:translateY(-2px); box-shadow:0 8px 32px rgba(199,52,79,.3); }
     .f-submit:disabled { opacity:.6; cursor:not-allowed; transform:none; }
     .f-note { font-size:.75rem; color:var(--text-4); text-align:center; margin-top:9px; }
     .f-success { display:none; text-align:center; padding:44px 16px; }
     .f-success.show { display:block; }
     .f-success-ico   { font-size:2.8rem; margin-bottom:13px; }
-    .f-success-title { font-size:1.25rem; font-weight:700; margin-bottom:7px; }
+    .f-success-title { font-size:1.25rem; font-weight:700; margin-bottom:7px; font-family:'Montserrat',sans-serif; }
     .f-success-body  { font-size:1rem; color:var(--text-2); line-height:1.65; }
 
     /* ── FOOTER ── */
     .footer { background:var(--bg-2); border-top:1px solid var(--border); padding:48px 0 26px; }
     .footer__top { display:flex; justify-content:space-between; align-items:flex-start; gap:32px; flex-wrap:wrap; margin-bottom:30px; }
     .footer__brand { max-width:260px; }
-    .footer__brand-name { font-family:'Nunito','Arial Rounded MT Bold',sans-serif; font-size:1.25rem; font-weight:900; color:var(--green); margin-bottom:7px; }
+    .footer__brand-name { font-family:'Montserrat',sans-serif; font-size:1.25rem; font-weight:900; color:var(--text); margin-bottom:7px; }
+    .footer__brand-name .accent { color:var(--green); }
     .footer__brand-desc { font-size:1rem; color:var(--text-3); line-height:1.6; }
     .footer__cols { display:flex; gap:52px; }
-    .footer__col h4 { font-size:.75rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--text-3); margin-bottom:12px; }
+    .footer__col h4 { font-size:.75rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--text-3); margin-bottom:12px; font-family:'Roboto Mono',monospace; }
     .footer__col ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
     .footer__col li a { font-size:1rem; color:var(--text-3); transition:color var(--t); }
     .footer__col li a:hover { color:var(--text); }
     .footer__bot { padding-top:18px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
-    .footer__copy,.footer__ch { font-size:.75rem; color:var(--text-4); }
+    .footer__copy,.footer__ch { font-size:.75rem; color:var(--text-4); font-family:'Roboto Mono',monospace; }
 
     /* ── FLOAT CTA ── */
     .float-cta { display:none; position:fixed; bottom:22px; left:50%; transform:translateX(-50%); z-index:900; }
-    .float-cta a { display:flex; align-items:center; gap:8px; background:var(--red); color:#fff; padding:13px 28px; border-radius:100px; font-weight:800; font-size:1rem; box-shadow:0 8px 32px rgba(230,57,70,.42); transition:background var(--t); }
+    .float-cta a { display:flex; align-items:center; gap:8px; background:var(--red); color:#fff; padding:13px 28px; border-radius:2px; font-weight:800; font-size:1rem; box-shadow:0 8px 32px rgba(199,52,79,.38); transition:background var(--t); font-family:'Montserrat',sans-serif; }
     .float-cta a:hover { background:var(--red-dk); }
 
     /* ── ANIMATIONS ── */
@@ -374,6 +385,7 @@
       .stack__split  { grid-template-columns:1fr; }
       .contact__grid { grid-template-columns:1fr; gap:36px; }
       .contact__stick{ position:static; }
+      .fnotes__grid  { grid-template-columns:1fr 1fr; }
     }
     @media(max-width:768px) {
       :root { --nav-h:68px; }
@@ -407,7 +419,7 @@
   <div class="container">
     <div class="nav__inner">
       <a href="#" class="nav__logo" aria-label="Aaweg GmbH Zürich">
-        <span class="nav__logo-name">Aaweg GmbH<span class="nav__logo-sub">&middot; Switzerland</span></span>
+        <span class="nav__logo-name">Aaweg<span class="nav__logo-accent">.</span>GmbH<span class="nav__logo-sub">&middot; Switzerland</span></span>
       </a>
       <ul class="nav__links">
         <li><a href="#services">Services</a></li>
@@ -577,66 +589,60 @@
     <p class="sec-label">The Field Notes</p>
     <h2 class="sec-title">These problems<br>have appeared before.</h2>
     <p class="fnotes__intro">
-      Across industries, systems, and years, certain SAP situations surface with the same urgency
-      and the same constraints. Here are patterns we have already worked through &mdash;
-      in case one of them looks familiar.
+      Certain SAP situations surface across industries and years with the same patterns and constraints.
+      Here are three we have worked through before &mdash; in case one of them looks familiar.
     </p>
 
     <div class="fnotes__grid">
 
-      <!-- 01 -->
+      <!-- DISPATCH 01 -->
       <div class="fn-card reveal">
         <div class="fn-dispatch">DISPATCH &middot; 01</div>
         <div class="fn-ind"><span class="fn-ind-dot" style="background:#F59E0B"></span>Manufacturing &middot; Global Operations</div>
-        <h3 class="fn-title">"SAP and the warehouse could see each other. Operationally, they were blind."</h3>
-        <p class="fn-body">A high-bay warehouse and SAP were technically integrated but operators couldn&rsquo;t see weight, position, or conveyor state inside SAP. We engineered a real-time interface so a warehouse user opening an SAP screen sees the live weight of goods on the conveyor. The plant gained instant reconciliation between physical flow and book inventory. The team behind it became the founding nucleus of the client&rsquo;s SAP Global Competency Centre.</p>
+        <h3 class="fn-title">&ldquo;A product-costing engine that could not reach production speed. The business was preparing to write off the investment.&rdquo;</h3>
+        <p class="fn-body">A Tier-1 agribusiness was about to scrap its global product-costing engine &mdash; the prototype ran so slowly it could not go to production. We re-architected the calculation flow with targeted ABAP and data-model changes, lifting performance roughly 100&times;. The redesign went live as the global solution and became the template for all subsequent country rollouts.</p>
         <div class="fn-result">
-          <div><div class="fn-result-v">Real-time visibility</div><div class="fn-result-l">Founded client&rsquo;s SAP Global Competency Centre</div></div>
+          <div><div class="fn-result-v">100&times; performance lift</div><div class="fn-result-l">Prototype &rarr; live global template</div></div>
         </div>
-        <div class="fn-tags"><span class="fn-tag">ABAP OO</span><span class="fn-tag">MM</span><span class="fn-tag">MM-MOB</span><span class="fn-tag">Real-time Interfaces</span></div>
+        <div class="fn-tags"><span class="fn-tag">ABAP</span><span class="fn-tag">FI/CO</span><span class="fn-tag">Product Costing</span><span class="fn-tag">Global Rollout</span></div>
+        <a href="#contact" class="fn-microcta">Facing something similar?</a>
       </div>
 
-      <!-- 02 -->
+      <!-- DISPATCH 02 -->
       <div class="fn-card reveal">
         <div class="fn-dispatch">DISPATCH &middot; 02</div>
-        <div class="fn-ind"><span class="fn-ind-dot" style="background:#E63946"></span>Pharma &middot; Global SRM &middot; 20,000 users</div>
-        <h3 class="fn-title">"PO valuations were breaking every month end. Across 20 countries."</h3>
-        <p class="fn-body">Twenty country ERPs were drifting from the central SRM hub on FX rates, causing PO valuation failures each month. We designed a reverse-alignment process that pulled rates from each ERP, reconciled them centrally, and pushed back a single corrected set on a controlled cadence. Month-end PO disputes dropped to near zero across all 20 countries. The mechanism became a standing global control in the SRM operating model.</p>
+        <div class="fn-ind"><span class="fn-ind-dot" style="background:#8294A3"></span>Public Sector &middot; Financial Delegations</div>
+        <h3 class="fn-title">&ldquo;A financial delegations rebuild that had stalled mid-programme. Taken over and steered to go-live.&rdquo;</h3>
+        <p class="fn-body">A Public-Private-Partnership rebuild of financial delegations had stalled under the previous architect and was on a steering committee watch list. We took over mid-flight, stabilised the design, and rebuilt trust with the programme sponsors before steering it to a clean go-live. We were retained into the support phase. The delegations model is still running in production years later.</p>
         <div class="fn-result">
-          <div><div class="fn-result-v">Month-end disputes &rarr; near zero</div><div class="fn-result-l">20 countries, 20,000 users</div></div>
+          <div><div class="fn-result-v">Programme recovered</div><div class="fn-result-l">Clean go-live &middot; Still in production years later</div></div>
         </div>
-        <div class="fn-tags"><span class="fn-tag">SRM</span><span class="fn-tag">FI/CO</span><span class="fn-tag">ALE</span><span class="fn-tag">ABAP OO</span></div>
+        <div class="fn-tags"><span class="fn-tag">SAP FI</span><span class="fn-tag">Programme Recovery</span><span class="fn-tag">Public Sector</span><span class="fn-tag">ABAP</span></div>
+        <a href="#contact" class="fn-microcta">Facing something similar?</a>
       </div>
 
-      <!-- 03 -->
+      <!-- DISPATCH 03 -->
       <div class="fn-card reveal">
         <div class="fn-dispatch">DISPATCH &middot; 03</div>
-        <div class="fn-ind"><span class="fn-ind-dot" style="background:#4F8EF7"></span>Financial Services &middot; Engineering</div>
-        <h3 class="fn-title">"Both clients were about to extend their incumbent SAP vendors by default."</h3>
-        <p class="fn-body">A Swiss bank and a global engineering group were each poised to sign again with their existing SAP supplier. We competed with a sharper architecture proposal and a reusable global SRM approval-workflow framework configurable per country rather than rebuilt per client. Both switched. The same workflow framework was deployed on three subsequent programmes without redevelopment.</p>
+        <div class="fn-ind"><span class="fn-ind-dot" style="background:#C7344F"></span>Financial Services &middot; Engineering &middot; Global</div>
+        <h3 class="fn-title">&ldquo;Two competitive evaluations against established SAP suppliers. Both won with a reusable global workflow framework.&rdquo;</h3>
+        <p class="fn-body">A Swiss bank and a global engineering group were each in procurement for SAP delivery services. We competed with a sharper architecture proposal and a reusable global SRM approval-workflow framework, configurable per country rather than rebuilt per engagement. Both clients selected us. The framework was reused on three further programmes without redevelopment.</p>
         <div class="fn-result">
-          <div><div class="fn-result-v">2 major clients won</div><div class="fn-result-l">Framework reused on 3 further programmes</div></div>
+          <div><div class="fn-result-v">2 engagements won</div><div class="fn-result-l">Reusable framework &middot; Deployed on 3 further programmes</div></div>
         </div>
-        <div class="fn-tags"><span class="fn-tag">SRM</span><span class="fn-tag">ABAP OO</span><span class="fn-tag">Workflow</span><span class="fn-tag">Global Rollout</span></div>
-      </div>
-
-      <!-- 04 -->
-      <div class="fn-card reveal">
-        <div class="fn-dispatch">DISPATCH &middot; 04</div>
-        <div class="fn-ind"><span class="fn-ind-dot" style="background:#00D4AA"></span>Finance &middot; Swiss Compliance</div>
-        <h3 class="fn-title">"The QR-bill deadline arrived. The invoice form could not produce a compliant slip."</h3>
-        <p class="fn-body">Switzerland&rsquo;s QR-bill standard came into force and the client&rsquo;s existing SAP invoice form was not ready. We delivered a QR-Rechnung form integrated into the standard billing output, with correct encoding, reference structure, and bank-validated layout &mdash; on the regulatory deadline. The form became the template reused across the client&rsquo;s subsidiaries.</p>
-        <div class="fn-result">
-          <div><div class="fn-result-v">Compliant on day one</div><div class="fn-result-l">Template reused across all subsidiaries</div></div>
-        </div>
-        <div class="fn-tags"><span class="fn-tag">Adobe Forms</span><span class="fn-tag">ABAP</span><span class="fn-tag">SD</span><span class="fn-tag">Swiss Regulatory</span></div>
+        <div class="fn-tags"><span class="fn-tag">SRM</span><span class="fn-tag">ABAP OO</span><span class="fn-tag">Workflow Architecture</span><span class="fn-tag">Global Rollout</span></div>
+        <a href="#contact" class="fn-microcta">Facing something similar?</a>
       </div>
 
     </div>
 
-    <div style="margin-top:40px;text-align:center">
+    <div style="margin-top:40px;text-align:center;display:flex;justify-content:center;gap:14px;flex-wrap:wrap">
       <a href="fieldnotes.html" class="btn btn-ghost" style="display:inline-flex">
-        Read more
+        Read all Field Notes
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#contact" class="btn btn-red" style="display:inline-flex">
+        Book a Sprint
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
@@ -644,7 +650,7 @@
 </section>
 
 <!-- ═══════════════════════════════════════
-     THE MOAT — GERMAN
+     THE MOAT
 ════════════════════════════════════════ -->
 <section class="moat section" id="moat">
   <div class="container">
@@ -733,13 +739,13 @@
           <span class="stack-ph-sub">49+ combined years</span>
         </div>
         <div class="stack-items">
-          <div class="stack-row"><span class="stack-name">ABAP / OO</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#4F8EF7,#7FB0FF)" data-w="98%"></div></div><span class="stack-yrs">20+ yrs &middot; all 3</span></div>
-          <div class="stack-row"><span class="stack-name">S/4HANA</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#4F8EF7,#7FB0FF)" data-w="95%"></div></div><span class="stack-yrs">20+ go-lives</span></div>
-          <div class="stack-row"><span class="stack-name">RAP / OData</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#4F8EF7,#7FB0FF)" data-w="88%"></div></div><span class="stack-yrs">5+ yrs</span></div>
-          <div class="stack-row"><span class="stack-name">BTP</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#4F8EF7,#7FB0FF)" data-w="85%"></div></div><span class="stack-yrs">4+ yrs</span></div>
-          <div class="stack-row"><span class="stack-name">Fiori / UI5</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#4F8EF7,#7FB0FF)" data-w="86%"></div></div><span class="stack-yrs">6+ yrs</span></div>
-          <div class="stack-row"><span class="stack-name">EWM / MDG</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#4F8EF7,#7FB0FF)" data-w="82%"></div></div><span class="stack-yrs">5+ yrs</span></div>
-          <div class="stack-row"><span class="stack-name">HANA SQL</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#4F8EF7,#7FB0FF)" data-w="90%"></div></div><span class="stack-yrs">8+ yrs</span></div>
+          <div class="stack-row"><span class="stack-name">ABAP / OO</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#C7344F,#E84060)" data-w="98%"></div></div><span class="stack-yrs">20+ yrs &middot; all 3</span></div>
+          <div class="stack-row"><span class="stack-name">S/4HANA</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#C7344F,#E84060)" data-w="95%"></div></div><span class="stack-yrs">20+ go-lives</span></div>
+          <div class="stack-row"><span class="stack-name">RAP / OData</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#C7344F,#E84060)" data-w="88%"></div></div><span class="stack-yrs">5+ yrs</span></div>
+          <div class="stack-row"><span class="stack-name">BTP</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#C7344F,#E84060)" data-w="85%"></div></div><span class="stack-yrs">4+ yrs</span></div>
+          <div class="stack-row"><span class="stack-name">Fiori / UI5</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#C7344F,#E84060)" data-w="86%"></div></div><span class="stack-yrs">6+ yrs</span></div>
+          <div class="stack-row"><span class="stack-name">EWM / MDG</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#C7344F,#E84060)" data-w="82%"></div></div><span class="stack-yrs">5+ yrs</span></div>
+          <div class="stack-row"><span class="stack-name">HANA SQL</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#C7344F,#E84060)" data-w="90%"></div></div><span class="stack-yrs">8+ yrs</span></div>
         </div>
       </div>
 
@@ -750,13 +756,13 @@
           <span class="stack-ph-sub">Where most SAP teams stop</span>
         </div>
         <div class="stack-items">
-          <div class="stack-row"><span class="stack-name">REST / APIs</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#00D4AA,#4F8EF7)" data-w="94%"></div></div><span class="stack-yrs">SAP &harr; Anything</span></div>
-          <div class="stack-row"><span class="stack-name">Python</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#00D4AA,#4F8EF7)" data-w="80%"></div></div><span class="stack-yrs">Data/Integration</span></div>
-          <div class="stack-row"><span class="stack-name">Intgr. Suite</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#00D4AA,#4F8EF7)" data-w="80%"></div></div><span class="stack-yrs">PI/PO migration</span></div>
-          <div class="stack-row"><span class="stack-name">AI / LLM</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#7C3AED,#4F8EF7)" data-w="70%"></div></div><span class="stack-yrs">Agents / RAG</span></div>
-          <div class="stack-row"><span class="stack-name">Cloud AWS/Az</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#00D4AA,#4F8EF7)" data-w="74%"></div></div><span class="stack-yrs">Side-by-side</span></div>
-          <div class="stack-row"><span class="stack-name">Kafka/Events</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#00D4AA,#4F8EF7)" data-w="65%"></div></div><span class="stack-yrs">Real-time</span></div>
-          <div class="stack-row"><span class="stack-name">TradFi/DeFi</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#F59E0B,#4F8EF7)" data-w="75%"></div></div><span class="stack-yrs">CFA &middot; Blockchain</span></div>
+          <div class="stack-row"><span class="stack-name">REST / APIs</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#8294A3,#DAE2EB)" data-w="94%"></div></div><span class="stack-yrs">SAP &harr; Anything</span></div>
+          <div class="stack-row"><span class="stack-name">Python</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#8294A3,#DAE2EB)" data-w="80%"></div></div><span class="stack-yrs">Data/Integration</span></div>
+          <div class="stack-row"><span class="stack-name">Intgr. Suite</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#8294A3,#DAE2EB)" data-w="80%"></div></div><span class="stack-yrs">PI/PO migration</span></div>
+          <div class="stack-row"><span class="stack-name">AI / LLM</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#C7344F,#8294A3)" data-w="70%"></div></div><span class="stack-yrs">Agents / RAG</span></div>
+          <div class="stack-row"><span class="stack-name">Cloud AWS/Az</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#8294A3,#DAE2EB)" data-w="74%"></div></div><span class="stack-yrs">Side-by-side</span></div>
+          <div class="stack-row"><span class="stack-name">Kafka/Events</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#8294A3,#DAE2EB)" data-w="65%"></div></div><span class="stack-yrs">Real-time</span></div>
+          <div class="stack-row"><span class="stack-name">TradFi/DeFi</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#DAE2EB,#8294A3)" data-w="75%"></div></div><span class="stack-yrs">CFA &middot; Blockchain</span></div>
         </div>
       </div>
 
@@ -779,10 +785,10 @@
           We respond within <strong style="color:var(--text)">24 hours</strong> with availability
           and a clear next step. No discovery workshop required.
         </p>
-        <a href="pricing.html" style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:26px;padding:18px 22px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);transition:border-color var(--t),transform var(--t)" onmouseover="this.style.borderColor='rgba(93,139,60,.35)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='';this.style.transform=''">
+        <a href="pricing.html" style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:26px;padding:18px 22px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);transition:border-color var(--t),transform var(--t),box-shadow var(--t)" onmouseover="this.style.borderColor='rgba(199,52,79,.38)';this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(199,52,79,.1)'" onmouseout="this.style.borderColor='';this.style.transform='';this.style.boxShadow=''">
           <div>
-            <div style="font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:4px">Rates &amp; Packages</div>
-            <div style="font-size:1rem;color:var(--text-2)">Day rate from <strong style="color:var(--text);font-family:'JetBrains Mono',monospace">CHF 2,200</strong> &middot; retainers from <strong style="color:var(--text);font-family:'JetBrains Mono',monospace">CHF 6,000/mo</strong></div>
+            <div style="font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:4px;font-family:'Roboto Mono',monospace">Rates &amp; Packages</div>
+            <div style="font-size:1rem;color:var(--text-2)">Day rate from <strong style="color:var(--text);font-family:'Roboto Mono',monospace">CHF 2,200</strong> &middot; retainers from <strong style="color:var(--text);font-family:'Roboto Mono',monospace">CHF 6,000/mo</strong></div>
           </div>
           <svg width="18" height="18" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;color:var(--green-lt)"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
@@ -857,7 +863,7 @@
   <div class="container">
     <div class="footer__top">
       <div class="footer__brand">
-        <div class="footer__brand-name">Aaweg GmbH<span class="nav__logo-sub">&middot; Switzerland</span></div>
+        <div class="footer__brand-name">Aaweg<span class="accent">.</span>GmbH<span style="font-size:.58em;opacity:.38;letter-spacing:.1em;font-weight:700">&nbsp;&middot;&nbsp;CH</span></div>
         <p class="footer__brand-desc">Senior SAP architecture and engineering for the modern Swiss enterprise. Precise. Direct. Delivered.</p>
       </div>
       <div class="footer__cols">
@@ -893,11 +899,9 @@
 </div>
 
 <script>
-  // Nav scroll
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 24), {passive:true});
 
-  // Mobile burger
   const burger = document.getElementById('burger');
   const navMob = document.getElementById('navMob');
   burger.addEventListener('click', () => {
@@ -910,14 +914,12 @@
     burger.setAttribute('aria-expanded','false');
   }));
 
-  // Scroll reveal
   const ro = new IntersectionObserver(
     entries => entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('vis');ro.unobserve(e.target);} }),
     {threshold:0.1}
   );
   document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 
-  // Stack bar animation
   const bo = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if(e.isIntersecting){
@@ -930,7 +932,6 @@
   }, {threshold:0.2});
   document.querySelectorAll('.stack-panel').forEach(el => bo.observe(el));
 
-  // Service card CTA pre-fills form select
   document.querySelectorAll('.svc-cta').forEach(cta => {
     cta.addEventListener('click', () => {
       const v = cta.closest('[data-svc]')?.dataset.svc;
@@ -939,11 +940,9 @@
     });
   });
 
-  // Date min = today
   const di = document.getElementById('fDate');
   if(di) di.min = new Date().toISOString().split('T')[0];
 
-  // Form submit
   const form = document.getElementById('bookingForm');
   form.addEventListener('submit', e => {
     e.preventDefault();
@@ -963,7 +962,6 @@
     }, 700);
   });
 
-  // Smooth scroll with nav offset
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', function(e) {
       const t = document.querySelector(this.getAttribute('href'));
