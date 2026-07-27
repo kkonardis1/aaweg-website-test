@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Aaweg GmbH Pricing – Transparent SAP consulting rates. Day rates, monthly retainers, support packages, fixed-price sprints.">
+  <meta name="description" content="Aaweg GmbH Pricing – Two basis rates, automatic commitment discounts. Clear structure for SAP consulting engagements, rate confirmed on request.">
   <title>Pricing – Aaweg GmbH</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -140,6 +140,27 @@
     .rate-panel__bar-wrap { width:100px; height:4px; background:var(--bg); border-radius:2px; overflow:hidden; margin:0 16px 0 auto; }
     .rate-panel__bar      { height:100%; border-radius:2px; }
 
+    /* Basis-rate card body (no published figure — scope + CTA) */
+    .rate-panel__body  { padding:22px 24px 24px; }
+    .rate-panel__desc  { font-size:1rem; color:var(--text-2); line-height:1.65; margin-bottom:18px; }
+    .rate-panel__cta   { display:inline-flex; align-items:center; gap:6px; font-size:1rem; font-weight:700; color:var(--blue-lt); transition:gap var(--t); }
+    .rate-panel:hover .rate-panel__cta { gap:10px; }
+
+    /* ── COMMITMENT DISCOUNT TABLE ── */
+    .commit-table { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg); overflow:hidden; margin-bottom:14px; }
+    .commit-row { display:grid; grid-template-columns:1fr auto; align-items:center; gap:16px; padding:14px 24px; border-bottom:1px solid rgba(255,255,255,.04); }
+    .commit-row:last-child { border-bottom:none; }
+    .commit-row--head { font-size:.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--text-3); background:rgba(255,255,255,.02); }
+    .commit-dur  { font-size:1rem; color:var(--text-2); }
+    .commit-note { font-size:.75rem; color:var(--text-4); margin-left:8px; }
+    .commit-tag  { display:inline-flex; align-items:center; padding:5px 13px; border-radius:100px; font-size:.75rem; font-weight:700; letter-spacing:.02em; white-space:nowrap; }
+    .commit-tag--up     { background:rgba(245,158,11,.12); color:var(--amber); }
+    .commit-tag--base   { background:rgba(79,142,247,.12); color:var(--blue-lt); }
+    .commit-tag--down   { background:rgba(93,139,60,.16); color:var(--green-lt); }
+    .commit-tag--down2  { background:rgba(0,212,170,.16); color:var(--teal); }
+    .commit-tag--custom { background:rgba(124,58,237,.14); color:#a78bfa; }
+    .commit-footnote { font-size:.75rem; color:var(--text-4); margin-bottom:72px; }
+
     /* ── PACKAGE CARDS ── */
     .packages-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-bottom:72px; }
 
@@ -161,10 +182,8 @@
       padding:3px 10px; border-radius:100px; border:1px solid currentColor;
       margin-bottom:16px; opacity:.75;
     }
-    .pkg-price-row { display:flex; align-items:baseline; gap:6px; margin-bottom:6px; }
-    .pkg-from  { font-size:.75rem; color:var(--text-3); font-weight:600; }
-    .pkg-price { font-size:2rem; font-weight:900; line-height:1; letter-spacing:-.03em; font-family:'JetBrains Mono',monospace; }
-    .pkg-unit  { font-size:.75rem; color:var(--text-3); font-weight:600; }
+    .pkg-price-row { display:flex; align-items:baseline; gap:6px; margin-bottom:10px; }
+    .pkg-basis-tag { display:inline-flex; align-items:center; font-size:.95rem; font-weight:800; letter-spacing:-.01em; padding:9px 16px; border-radius:var(--r-sm); border:1px solid currentColor; background:rgba(255,255,255,.03); }
     .pkg-note  { font-size:.75rem; color:var(--text-4); margin-bottom:20px; }
 
     .pkg-divider { border:none; border-top:1px solid var(--border); margin:20px 0; }
@@ -182,16 +201,16 @@
 
     /* Package accent colors */
     .pkg-1 .pkg-top { background:linear-gradient(90deg,var(--blue),var(--blue-lt)); }
-    .pkg-1 .pkg-model, .pkg-1 .pkg-cta, .pkg-1 .pkg-includes li::before { color:var(--blue-lt); }
+    .pkg-1 .pkg-model, .pkg-1 .pkg-basis-tag, .pkg-1 .pkg-cta, .pkg-1 .pkg-includes li::before { color:var(--blue-lt); }
     .pkg-1:hover { border-color:rgba(79,142,247,.3); }
     .pkg-2 .pkg-top { background:linear-gradient(90deg,var(--teal),#7fffd4); }
-    .pkg-2 .pkg-model, .pkg-2 .pkg-cta, .pkg-2 .pkg-includes li::before { color:var(--teal); }
+    .pkg-2 .pkg-model, .pkg-2 .pkg-basis-tag, .pkg-2 .pkg-cta, .pkg-2 .pkg-includes li::before { color:var(--teal); }
     .pkg-2:hover { border-color:rgba(0,212,170,.3); }
     .pkg-3 .pkg-top { background:linear-gradient(90deg,var(--amber),#fcd34d); }
-    .pkg-3 .pkg-model, .pkg-3 .pkg-cta, .pkg-3 .pkg-includes li::before { color:var(--amber); }
+    .pkg-3 .pkg-model, .pkg-3 .pkg-basis-tag, .pkg-3 .pkg-cta, .pkg-3 .pkg-includes li::before { color:var(--amber); }
     .pkg-3:hover { border-color:rgba(245,158,11,.3); }
     .pkg-4 .pkg-top { background:linear-gradient(90deg,var(--purple),#a78bfa); }
-    .pkg-4 .pkg-model, .pkg-4 .pkg-cta, .pkg-4 .pkg-includes li::before { color:#a78bfa; }
+    .pkg-4 .pkg-model, .pkg-4 .pkg-basis-tag, .pkg-4 .pkg-cta, .pkg-4 .pkg-includes li::before { color:#a78bfa; }
     .pkg-4:hover { border-color:rgba(124,58,237,.3); }
 
     /* ── SCENARIO TABLE ── */
@@ -303,10 +322,12 @@
   <div class="container">
     <div class="page-header__inner">
       <p class="ph-label">Pricing</p>
-      <h1 class="ph-title">Transparent rates.<br>No surprises.</h1>
+      <h1 class="ph-title">Two basis rates.<br>No hidden multipliers.</h1>
       <p class="ph-sub">
-        All rates in CHF, excluding VAT (MWST). Billed per sprint for time &amp; materials,
-        monthly for retainers and support. Fixed-price available on request.
+        Every engagement is priced from two basis rates &mdash; Implementation and Strategic &mdash;
+        reduced by a commitment discount as the engagement grows. Billed per sprint for time &amp; materials,
+        monthly for retainers and support. Your exact rate is confirmed in writing within 24 hours, always
+        excl. Swiss VAT (MWST).
       </p>
     </div>
   </div>
@@ -319,121 +340,81 @@
 ───────────────────────────────── -->
 <section class="section">
   <div class="container">
-    <p class="sec-label">Base Rates</p>
-    <h2 class="sec-title">The unit cost.</h2>
-    <p class="sec-sub">Everything below is built on these two numbers. No hidden multipliers.</p>
+    <p class="sec-label">Basis Rates</p>
+    <h2 class="sec-title">Two rates. Everything else follows.</h2>
+    <p class="sec-sub">Every engagement is priced from one of two basis rates &mdash; confirmed for your scope, not published as a list price.</p>
 
     <div class="rate-basis">
 
-      <!-- Time & Materials -->
+      <!-- Implementation -->
       <div class="rate-panel">
         <div class="rate-panel__head">
-          <span class="rate-panel__icon">⏱</span>
-          <span class="rate-panel__title">Time &amp; Materials</span>
-          <span class="rate-panel__sub">billed on delivery</span>
+          <span class="rate-panel__icon">🛠</span>
+          <span class="rate-panel__title">Implementation / Delivery</span>
         </div>
-        <div class="rate-panel__rows">
-          <div class="rate-panel__row">
-            <div>
-              <div class="rate-panel__dur">Half day <span style="font-size:.75rem;color:var(--text-4)">(up to 4 h)</span></div>
-            </div>
-            <div style="display:flex;align-items:center;gap:12px">
-              <div class="rate-panel__bar-wrap"><div class="rate-panel__bar" style="width:59%;background:linear-gradient(90deg,var(--blue),var(--blue-lt))"></div></div>
-              <div class="rate-panel__price"><span class="chf">CHF</span>1,300</div>
-            </div>
-          </div>
-          <div class="rate-panel__row" style="background:rgba(79,142,247,.04)">
-            <div>
-              <div class="rate-panel__dur">Full day</div>
-              <div class="rate-panel__note">Standard billing unit</div>
-            </div>
-            <div style="display:flex;align-items:center;gap:12px">
-              <div class="rate-panel__bar-wrap"><div class="rate-panel__bar" style="width:100%;background:linear-gradient(90deg,var(--blue),var(--blue-lt))"></div></div>
-              <div class="rate-panel__price"><span class="chf">CHF</span>2,200</div>
-            </div>
-          </div>
-          <div class="rate-panel__row">
-            <div>
-              <div class="rate-panel__dur">1 week <span style="font-size:.75rem;color:var(--text-4)">(5 days)</span></div>
-              <div class="rate-panel__note">Sprint block</div>
-            </div>
-            <div style="display:flex;align-items:center;gap:12px">
-              <div class="rate-panel__bar-wrap"><div class="rate-panel__bar" style="width:100%;background:linear-gradient(90deg,var(--blue),var(--teal))"></div></div>
-              <div class="rate-panel__price"><span class="chf">CHF</span>10,500</div>
-            </div>
-          </div>
-          <div class="rate-panel__row">
-            <div>
-              <div class="rate-panel__dur">2 weeks <span style="font-size:.75rem;color:var(--text-4)">(10 days)</span></div>
-              <div class="rate-panel__note">Extended sprint</div>
-            </div>
-            <div style="display:flex;align-items:center;gap:12px">
-              <div class="rate-panel__bar-wrap"><div class="rate-panel__bar" style="width:100%;background:linear-gradient(90deg,var(--blue),var(--teal))"></div></div>
-              <div class="rate-panel__price"><span class="chf">CHF</span>21,000</div>
-            </div>
-          </div>
+        <div class="rate-panel__body">
+          <p class="rate-panel__desc">Hands-on: ABAP, integrations, Fiori / RAP / BTP builds, POCs, migration support, bugfixes, performance.</p>
+          <a href="index.html#contact" class="rate-panel__cta">Get your rate &rarr;</a>
         </div>
       </div>
 
-      <!-- Monthly Engagement -->
+      <!-- Strategic -->
       <div class="rate-panel">
         <div class="rate-panel__head">
-          <span class="rate-panel__icon">🔄</span>
-          <span class="rate-panel__title">Monthly Engagement</span>
-          <span class="rate-panel__sub">billed monthly</span>
+          <span class="rate-panel__icon">🧭</span>
+          <span class="rate-panel__title">Strategic / Architecture</span>
         </div>
-        <div class="rate-panel__rows">
-          <div class="rate-panel__row">
-            <div>
-              <div class="rate-panel__dur">Support bucket</div>
-              <div class="rate-panel__note">3 days/month &middot; unused days roll over</div>
-            </div>
-            <div style="display:flex;align-items:center;gap:12px">
-              <div class="rate-panel__bar-wrap"><div class="rate-panel__bar" style="width:75%;background:linear-gradient(90deg,var(--amber),#fcd34d)"></div></div>
-              <div class="rate-panel__price" style="color:var(--amber)"><span class="chf">CHF</span>6,000<span style="font-size:.65em;font-weight:600;color:var(--text-3)">/mo</span></div>
-            </div>
-          </div>
-          <div class="rate-panel__row" style="background:rgba(79,142,247,.04)">
-            <div>
-              <div class="rate-panel__dur">Architect retainer</div>
-              <div class="rate-panel__note">2–4 days/month &middot; senior oversight</div>
-            </div>
-            <div style="display:flex;align-items:center;gap:12px">
-              <div class="rate-panel__bar-wrap"><div class="rate-panel__bar" style="width:100%;background:linear-gradient(90deg,var(--blue),var(--blue-lt))"></div></div>
-              <div class="rate-panel__price"><span class="chf">from CHF</span>8,000<span style="font-size:.65em;font-weight:600;color:var(--text-3)">/mo</span></div>
-            </div>
-          </div>
-          <div class="rate-panel__row">
-            <div>
-              <div class="rate-panel__dur">Multi-month sprint</div>
-              <div class="rate-panel__note">3+ months &middot; volume discount</div>
-            </div>
-            <div style="display:flex;align-items:center;gap:12px">
-              <div class="rate-panel__bar-wrap"><div class="rate-panel__bar" style="width:88%;background:linear-gradient(90deg,var(--teal),var(--blue))"></div></div>
-              <div class="rate-panel__price" style="color:var(--teal)"><span class="chf">custom</span></div>
-            </div>
-          </div>
-          <div class="rate-panel__row">
-            <div>
-              <div class="rate-panel__dur">Fixed-price project</div>
-              <div class="rate-panel__note">defined scope &middot; agreed total</div>
-            </div>
-            <div style="display:flex;align-items:center;gap:12px">
-              <div class="rate-panel__bar-wrap"><div class="rate-panel__bar" style="width:80%;background:linear-gradient(90deg,var(--purple),#a78bfa)"></div></div>
-              <div class="rate-panel__price" style="color:#a78bfa"><span class="chf">on request</span></div>
-            </div>
-          </div>
+        <div class="rate-panel__body">
+          <p class="rate-panel__desc">Design, governance, roadmap, partner selection, architecture reviews, pure advisory, senior oversight.</p>
+          <a href="index.html#contact" class="rate-panel__cta">Get your rate &rarr;</a>
         </div>
       </div>
 
     </div>
+
+    <p class="sec-label">Commitment Discount</p>
+    <h2 class="sec-title">The longer you commit, the lower your effective rate.</h2>
+    <p class="sec-sub">Applied automatically to the relevant basis rate &mdash; no negotiation required. Fragmented, short-notice work carries a premium instead.</p>
+
+    <div class="commit-table">
+      <div class="commit-row commit-row--head"><div>Commitment</div><div>Effect on basis rate</div></div>
+      <div class="commit-row">
+        <div><span class="commit-dur">Half-day / fragmented</span></div>
+        <div><span class="commit-tag commit-tag--up">Premium</span></div>
+      </div>
+      <div class="commit-row" style="background:rgba(79,142,247,.04)">
+        <div><span class="commit-dur">1&ndash;4 days</span><span class="commit-note">ad-hoc</span></div>
+        <div><span class="commit-tag commit-tag--base">Basis rate</span></div>
+      </div>
+      <div class="commit-row">
+        <div><span class="commit-dur">5&ndash;9 days</span><span class="commit-note">classic sprint</span></div>
+        <div><span class="commit-tag commit-tag--down">Commitment discount</span></div>
+      </div>
+      <div class="commit-row">
+        <div><span class="commit-dur">10&ndash;19 days</span></div>
+        <div><span class="commit-tag commit-tag--down">Commitment discount</span></div>
+      </div>
+      <div class="commit-row">
+        <div><span class="commit-dur">20+ days / multi-month continuous</span></div>
+        <div><span class="commit-tag commit-tag--down2">Deeper commitment discount</span></div>
+      </div>
+      <div class="commit-row">
+        <div><span class="commit-dur">Monthly retainer</span><span class="commit-note">min. 2&ndash;3 days locked</span></div>
+        <div><span class="commit-tag commit-tag--down">Commitment discount</span></div>
+      </div>
+      <div class="commit-row">
+        <div><span class="commit-dur">Fixed-price project</span><span class="commit-note">defined scope, agreed total</span></div>
+        <div><span class="commit-tag commit-tag--custom">On request</span></div>
+      </div>
+    </div>
+    <p class="commit-footnote">Urgent / go-live firefighting and pure-advisory work carry their own adjustment &mdash; covered in your proposal, not published here.</p>
 
     <!-- ─────────────────────────────────
          PACKAGES
     ───────────────────────────────── -->
     <p class="sec-label">Service Packages</p>
     <h2 class="sec-title">Four ways to engage.</h2>
-    <p class="sec-sub">Each package is built on the day rate above — packaged and scoped for a specific working relationship.</p>
+    <p class="sec-sub">Each package is built on the basis rates above — packaged and scoped for a specific working relationship.</p>
 
     <div class="packages-grid">
 
@@ -444,11 +425,9 @@
           <div class="pkg-name">Architect on Retainer</div>
           <div class="pkg-model">Monthly</div>
           <div class="pkg-price-row">
-            <span class="pkg-from">from</span>
-            <span class="pkg-price">8,000</span>
-            <span class="pkg-unit">CHF / month</span>
+            <span class="pkg-basis-tag">Strategic basis rate</span>
           </div>
-          <div class="pkg-note">2–4 architect days included &middot; excl. VAT</div>
+          <div class="pkg-note">2–4 architect days/month &middot; commitment discount applied &middot; excl. VAT</div>
           <hr class="pkg-divider">
           <ul class="pkg-includes">
             <li>Architecture decisions &amp; technical governance</li>
@@ -468,11 +447,9 @@
           <div class="pkg-name">The Focused Sprint</div>
           <div class="pkg-model">Day-rate · Fixed-price</div>
           <div class="pkg-price-row">
-            <span class="pkg-from">from</span>
-            <span class="pkg-price">2,200</span>
-            <span class="pkg-unit">CHF / day</span>
+            <span class="pkg-basis-tag">Implementation or Strategic basis</span>
           </div>
-          <div class="pkg-note">Typical sprint: 5–15 days &middot; fixed-price available</div>
+          <div class="pkg-note">Typical sprint: 5–15 days &middot; commitment discount from day 5 &middot; fixed-price available</div>
           <hr class="pkg-divider">
           <ul class="pkg-includes">
             <li>Strategy, architecture &amp; partner selection</li>
@@ -492,11 +469,9 @@
           <div class="pkg-name">Legacy Guardian</div>
           <div class="pkg-model">Monthly · Support</div>
           <div class="pkg-price-row">
-            <span class="pkg-from">from</span>
-            <span class="pkg-price">6,000</span>
-            <span class="pkg-unit">CHF / month</span>
+            <span class="pkg-basis-tag">Implementation basis rate</span>
           </div>
-          <div class="pkg-note">3-day bucket included &middot; unused days roll over</div>
+          <div class="pkg-note">3-day monthly bucket &middot; commitment discount applied &middot; unused days roll over</div>
           <hr class="pkg-divider">
           <ul class="pkg-includes">
             <li>Ongoing ECC / S/4 ABAP support &amp; monitoring</li>
@@ -515,11 +490,9 @@
           <div class="pkg-name">R&amp;D Forge</div>
           <div class="pkg-model">Day-rate · POC</div>
           <div class="pkg-price-row">
-            <span class="pkg-from">from</span>
-            <span class="pkg-price">2,200</span>
-            <span class="pkg-unit">CHF / day</span>
+            <span class="pkg-basis-tag">Implementation basis rate</span>
           </div>
-          <div class="pkg-note">POC typically 10–20 days &middot; fixed-price POC packages available</div>
+          <div class="pkg-note">POC typically 10–20 days &middot; commitment discount applies &middot; fixed-price POC packages available</div>
           <hr class="pkg-divider">
           <ul class="pkg-includes">
             <li>SAP &harr; AI / LLM agent integrations</li>
@@ -538,8 +511,8 @@
     ───────────────────────────────── -->
     <div class="scenarios">
       <p class="sec-label">Scenario Guide</p>
-      <h2 class="sec-title">What does my situation cost?</h2>
-      <p class="sec-sub">Common engagement shapes with indicative budgets. Actuals depend on scope and complexity — these are honest starting points.</p>
+      <h2 class="sec-title">Which basis rate fits my situation?</h2>
+      <p class="sec-sub">Common engagement shapes, mapped to the right basis rate and package. Actuals depend on scope and complexity — exact figures confirmed in your proposal.</p>
 
       <div class="scenario-grid">
 
@@ -548,8 +521,8 @@
           <div class="sc-title">Architecture review or technical assessment</div>
           <div class="sc-dur">1–2 days on-site or remote</div>
           <hr class="sc-divider">
-          <div class="sc-cost">CHF 2,200–4,400</div>
-          <div class="sc-cost-note">Day-rate basis</div>
+          <div><span class="commit-tag commit-tag--base">Strategic basis rate</span></div>
+          <div class="sc-cost-note">Ad-hoc</div>
           <div class="sc-pkg"><span class="sc-pkg-dot" style="background:var(--teal)"></span>Focused Sprint</div>
         </div>
 
@@ -558,8 +531,8 @@
           <div class="sc-title">Connect SAP to one external system (API or middleware)</div>
           <div class="sc-dur">3–5 days, depending on complexity</div>
           <hr class="sc-divider">
-          <div class="sc-cost">CHF 6,600–11,000</div>
-          <div class="sc-cost-note">Day-rate basis</div>
+          <div><span class="commit-tag commit-tag--base">Implementation basis rate</span></div>
+          <div class="sc-cost-note">Ad-hoc</div>
           <div class="sc-pkg"><span class="sc-pkg-dot" style="background:var(--teal)"></span>Focused Sprint</div>
         </div>
 
@@ -568,8 +541,8 @@
           <div class="sc-title">S/4HANA migration scoping &amp; roadmap</div>
           <div class="sc-dur">1 week (5 days)</div>
           <hr class="sc-divider">
-          <div class="sc-cost">CHF 10,500</div>
-          <div class="sc-cost-note">Sprint block rate</div>
+          <div><span class="commit-tag commit-tag--down">Commitment discount</span></div>
+          <div class="sc-cost-note">Implementation basis &middot; sprint block</div>
           <div class="sc-pkg"><span class="sc-pkg-dot" style="background:var(--teal)"></span>Focused Sprint</div>
         </div>
 
@@ -578,8 +551,8 @@
           <div class="sc-title">Proof-of-concept: SAP + AI or custom integration</div>
           <div class="sc-dur">2–4 weeks (10–20 days)</div>
           <hr class="sc-divider">
-          <div class="sc-cost">CHF 21,000–44,000</div>
-          <div class="sc-cost-note">Day-rate or fixed-price POC</div>
+          <div><span class="commit-tag commit-tag--down2">Deeper commitment discount</span></div>
+          <div class="sc-cost-note">Implementation basis &middot; or fixed-price POC</div>
           <div class="sc-pkg"><span class="sc-pkg-dot" style="background:#a78bfa)"></span>R&amp;D Forge</div>
         </div>
 
@@ -588,8 +561,8 @@
           <div class="sc-title">Senior architectural oversight, ongoing</div>
           <div class="sc-dur">Monthly, rolling</div>
           <hr class="sc-divider">
-          <div class="sc-cost">from CHF 8,000/mo</div>
-          <div class="sc-cost-note">Monthly retainer</div>
+          <div><span class="commit-tag commit-tag--down">Commitment discount</span></div>
+          <div class="sc-cost-note">Strategic basis &middot; monthly retainer</div>
           <div class="sc-pkg"><span class="sc-pkg-dot" style="background:var(--blue-lt)"></span>Architect on Retainer</div>
         </div>
 
@@ -598,8 +571,8 @@
           <div class="sc-title">Ongoing ABAP estate maintenance &amp; support</div>
           <div class="sc-dur">Monthly, rolling</div>
           <hr class="sc-divider">
-          <div class="sc-cost">from CHF 6,000/mo</div>
-          <div class="sc-cost-note">3-day monthly bucket</div>
+          <div><span class="commit-tag commit-tag--down">Commitment discount</span></div>
+          <div class="sc-cost-note">Implementation basis &middot; 3-day monthly bucket</div>
           <div class="sc-pkg"><span class="sc-pkg-dot" style="background:var(--amber)"></span>Legacy Guardian</div>
         </div>
 
@@ -624,8 +597,8 @@
         <div class="cond-col-title">Flexibility</div>
         <ul class="cond-list">
           <li>Fixed-price projects available for clearly scoped deliverables</li>
-          <li>Volume discounts for 3+ month continuous engagements</li>
-          <li>Retainer hours can be topped up at the standard day rate</li>
+          <li>Commitment discount deepens for 3+ month continuous engagements</li>
+          <li>Retainer days can be topped up at the applicable basis rate</li>
           <li>Support bucket unused days roll over to the following month</li>
           <li>Contract under Swiss law &middot; GTC available on request</li>
         </ul>
@@ -638,10 +611,10 @@
     <div class="cta-strip">
       <div class="cta-strip__text">
         <div class="cta-strip__title">Not sure which model fits?</div>
-        <div class="cta-strip__sub">Tell us what you need. We&rsquo;ll suggest the right engagement type and confirm pricing within 24 hours.</div>
+        <div class="cta-strip__sub">Tell us what you need. We&rsquo;ll confirm your basis rate and commitment discount within 24 hours.</div>
       </div>
       <a href="index.html#contact" class="btn-red">
-        Book a Sprint
+        Get Your Rate
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
