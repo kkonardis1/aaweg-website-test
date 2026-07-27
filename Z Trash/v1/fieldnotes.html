@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Aaweg GmbH Field Notes – SAP engagement patterns across 20+ years and 10+ industries. Situations that have appeared before.">
+  <title>The Field Notes – Aaweg GmbH</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Nunito:wght@800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      font-size: 18px;
+      --bg:      #060A14;
+      --bg-2:    #0B1222;
+      --bg-3:    #101828;
+      --surface: #0D1628;
+      --sur-2:   #131F35;
+      --border:       rgba(255,255,255,.07);
+      --green:    #5D8B3C;
+      --green-lt: #7AB354;
+      --red:      #E63946;
+      --red-dk:   #C02A36;
+      --blue:     #4F8EF7;
+      --blue-lt:  #7FB0FF;
+      --teal:     #00D4AA;
+      --text:   #F0F4FF;
+      --text-2: #B4BFCE;
+      --text-3: #6B7A99;
+      --text-4: #3D4D6A;
+      --r:    12px;
+      --r-lg: 20px;
+      --r-sm: 8px;
+      --nav-h: 80px;
+      --max-w: 1200px;
+      --t:  .2s ease;
+      --ts: .4s ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg); color: var(--text);
+      line-height: 1.6; overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; font-family: inherit; border: none; background: none; }
+
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+
+    /* NAV */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h);
+      z-index: 1000;
+      background: rgba(6,10,20,.92);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav__inner { display:flex; align-items:center; justify-content:space-between; height:100%; }
+    .nav__logo  { line-height:1; }
+    .nav__logo-name {
+      font-family: 'Nunito','Arial Rounded MT Bold',sans-serif;
+      font-size: 1.75rem; font-weight: 900; color: var(--green); letter-spacing: -.01em;
+      display:flex; align-items:baseline; gap:.15em;
+    }
+    .nav__logo-sub {
+      font-size:.58em; font-weight:700; opacity:.5; letter-spacing:.05em;
+      text-transform:uppercase; font-family:'JetBrains Mono',monospace;
+    }
+    .nav__back {
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:1rem; font-weight:600; color:var(--text-3);
+      padding:8px 16px; border-radius:var(--r-sm); border:1px solid var(--border);
+      transition:color var(--t),border-color var(--t),background var(--t);
+    }
+    .nav__back:hover { color:var(--text); border-color:rgba(255,255,255,.15); background:var(--surface); }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding-top: calc(var(--nav-h) + 72px);
+      padding-bottom: 64px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-2);
+      position: relative; overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(93,139,60,.1) 0%, transparent 65%);
+    }
+    .page-header__inner { position: relative; z-index: 1; }
+    .ph-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--green); margin-bottom: 14px;
+    }
+    .ph-label::before { content:''; display:block; width:18px; height:2px; background:var(--green); }
+    .ph-title {
+      font-size: clamp(2rem,5vw,3.5rem); font-weight: 900;
+      line-height: 1.08; letter-spacing: -.03em; margin-bottom: 16px;
+    }
+    .ph-sub { font-size: 1rem; color: var(--text-2); line-height: 1.72; max-width: 560px; }
+
+    /* GRID */
+    .fn-section { padding: 80px 0 100px; }
+    .fn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .fn-wide { grid-column: 1 / -1; }
+
+    /* CARDS */
+    .fn-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 26px 26px 22px;
+      display: flex; flex-direction: column;
+      transition: border-color var(--ts), transform var(--t);
+    }
+    .fn-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,.13); }
+    .fn-wide.fn-card { padding: 30px; flex-direction: row; gap: 44px; align-items: flex-start; }
+    .fn-main    { flex: 1; }
+    .fn-outcome { flex-shrink: 0; width: 230px; display: flex; flex-direction: column; gap: 10px; padding-top: 2px; }
+
+    .fn-dispatch { font-size:.75rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--text-4); font-family:'JetBrains Mono',monospace; margin-bottom:11px; }
+    .fn-ind { display:inline-flex; align-items:center; gap:6px; font-size:.75rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--text-3); margin-bottom:11px; }
+    .fn-ind-dot { width:6px; height:6px; border-radius:50%; display:inline-block; flex-shrink:0; }
+    .fn-title { font-size:1.25rem; font-weight:800; line-height:1.3; letter-spacing:-.01em; margin-bottom:11px; }
+    .fn-body  { font-size:1rem; color:var(--text-2); line-height:1.68; flex:1; }
+
+    .fn-result {
+      margin-top:18px; display:flex; align-items:flex-start; gap:10px;
+      background:rgba(0,212,170,.055); border:1px solid rgba(0,212,170,.14);
+      border-radius:var(--r-sm); padding:11px 14px;
+    }
+    .fn-outcome .fn-result { margin-top:0; flex-direction:column; gap:3px; padding:14px; }
+    .fn-result-v { font-size:1rem; font-weight:800; color:var(--teal); white-space:nowrap; }
+    .fn-outcome .fn-result-v { font-size:1.25rem; }
+    .fn-result-l { font-size:.75rem; color:var(--text-3); }
+
+    .fn-tags { display:flex; flex-wrap:wrap; gap:5px; margin-top:14px; }
+    .fn-tag  { font-size:.75rem; background:var(--bg-2); border:1px solid var(--border); border-radius:100px; padding:3px 9px; color:var(--text-4); font-family:'JetBrains Mono',monospace; }
+    .fn-microcta { display:inline-flex; align-items:center; gap:6px; font-size:.875rem; font-weight:700; color:var(--green-lt); margin-top:16px; transition:gap var(--t),color var(--t); }
+    .fn-microcta::after { content:'→'; }
+    .fn-microcta:hover { color:var(--teal); gap:10px; }
+
+    .fn-close { margin-top:72px; padding:40px; background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg); text-align:center; }
+    .fn-close p { font-size:1.15rem; color:var(--text-2); line-height:1.72; max-width:580px; margin:0 auto 22px; }
+    .fn-close-cta { display:inline-flex; align-items:center; gap:8px; background:var(--red); color:#fff; padding:14px 28px; border-radius:var(--r-sm); font-size:1rem; font-weight:800; transition:background var(--t),transform var(--t),box-shadow var(--t); }
+    .fn-close-cta:hover { background:var(--red-dk); transform:translateY(-2px); box-shadow:0 8px 32px rgba(230,57,70,.35); }
+
+    /* FOOTER */
+    .footer { background: var(--bg-2); border-top: 1px solid var(--border); padding: 40px 0 24px; }
+    .footer__inner { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+    .footer__brand-name { font-family:'Nunito','Arial Rounded MT Bold',sans-serif; font-size:1.25rem; font-weight:900; color:var(--green); display:flex; align-items:baseline; gap:.15em; }
+    .footer__copy { font-size:.75rem; color:var(--text-4); }
+
+    /* BTN */
+    .btn-back {
+      display:inline-flex; align-items:center; gap:8px; margin-top:52px;
+      font-size:1rem; font-weight:600; color:var(--text-3);
+      padding:12px 22px; border-radius:var(--r-sm); border:1px solid var(--border);
+      transition:color var(--t),border-color var(--t),background var(--t);
+    }
+    .btn-back:hover { color:var(--text); border-color:rgba(255,255,255,.15); background:var(--surface); }
+
+    /* ANIMATE */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)} }
+    .fn-card { animation: fadeUp .5s ease both; }
+    .fn-card:nth-child(1){animation-delay:.05s}
+    .fn-card:nth-child(2){animation-delay:.12s}
+    .fn-card:nth-child(3){animation-delay:.19s}
+    .fn-card:nth-child(4){animation-delay:.26s}
+    .fn-card:nth-child(5){animation-delay:.33s}
+    .fn-card:nth-child(6){animation-delay:.40s}
+    .fn-card:nth-child(7){animation-delay:.47s}
+    .fn-card:nth-child(8){animation-delay:.54s}
+    .fn-card:nth-child(9){animation-delay:.61s}
+    .fn-card:nth-child(10){animation-delay:.68s}
+    .fn-card:nth-child(11){animation-delay:.75s}
+    .fn-card:nth-child(12){animation-delay:.82s}
+    .fn-card:nth-child(13){animation-delay:.89s}
+
+    @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important}}
+
+    /* RESPONSIVE */
+    @media(max-width:768px) {
+      :root { --nav-h:68px; }
+      .fn-grid   { grid-template-columns:1fr; }
+      .fn-wide   { grid-column:1; }
+      .fn-wide.fn-card { flex-direction:column; gap:24px; }
+      .fn-outcome{ width:100%; }
+    }
+    @media(max-width:480px) {
+      .container { padding:0 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo" aria-label="Aaweg GmbH Zürich">
+        <span class="nav__logo-name">Aaweg GmbH<span class="nav__logo-sub">&middot; Switzerland</span></span>
+      </a>
+      <div style="display:flex;align-items:center;gap:8px">
+        <a href="pricing.html" style="font-size:1rem;font-weight:500;color:var(--text-3);padding:6px 11px;border-radius:8px;transition:color .2s ease,background .2s ease" onmouseover="this.style.color='#F0F4FF';this.style.background='rgba(255,255,255,.05)'" onmouseout="this.style.color='';this.style.background=''">Pricing</a>
+        <a href="index.html" class="nav__back">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13 8H3M7 12l-4-4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="container">
+    <div class="page-header__inner">
+      <p class="ph-label">The Field Notes</p>
+      <h1 class="ph-title">These problems<br>have appeared before.</h1>
+      <p class="ph-sub">
+        Across manufacturing plants, global banks, pharma rollouts, government systems, and Swiss SMEs &mdash;
+        certain SAP situations surface with the same patterns and constraints. Here are thirteen we have
+        worked through. In case one of them looks familiar.
+      </p>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="fn-section">
+  <div class="container">
+    <p style="font-size:1rem;color:var(--text-3);line-height:1.72;max-width:560px;margin-bottom:52px;border-left:2px solid var(--green);padding-left:18px;">We are often called in at the point of crisis. We could just as usefully be called in three months earlier. If something in your programme is starting to worry you &mdash; not yet a fire, just a feeling &mdash; that is a reasonable moment to have a conversation.</p>
+    <div class="fn-grid">
+
+      <!-- DISPATCH 01 — hero wide card -->
+      <div class="fn-card fn-wide">
+        <div class="fn-main">
+          <div class="fn-dispatch">DISPATCH &middot; 01</div>
+          <div class="fn-ind"><span class="fn-ind-dot" style="background:#F59E0B"></span>Manufacturing &middot; Global Operations</div>
+          <h2 class="fn-title">&ldquo;A product-costing engine that could not reach production speed. The business was preparing to write off the investment.&rdquo;</h2>
+          <p class="fn-body">A Tier-1 agribusiness was about to scrap its global product-costing engine &mdash; the prototype ran so slowly it could not go to production. We re-architected the calculation flow with targeted ABAP and data-model changes, lifting performance roughly 100&times;. The redesign went live as the global solution and became the template for all subsequent country rollouts.</p>
+          <div class="fn-tags"><span class="fn-tag">ABAP</span><span class="fn-tag">FI/CO</span><span class="fn-tag">Product Costing</span><span class="fn-tag">Global Rollout</span></div>
+          <a href="index.html#contact" class="fn-microcta">Facing something similar?</a>
+        </div>
+        <div class="fn-outcome">
+          <div class="fn-result">
+            <span class="fn-result-v">100&times;</span>
+            <span class="fn-result-l">Performance lift</span>
+          </div>
+          <div class="fn-result" style="background:rgba(93,139,60,.06);border-color:rgba(93,139,60,.18)">
+            <span class="fn-result-v" style="color:#7AB354">Live global template</span>
+            <span class="fn-result-l">Adopted for all country rollouts</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DISPATCH 02 -->
+      <div class="fn-card">
+        <div class="fn-dispatch">DISPATCH &middot; 02</div>
+        <div class="fn-ind"><span class="fn-ind-dot" style="background:#4F8EF7"></span>Public Sector &middot; Financial Delegations</div>
+        <h2 class="fn-title">&ldquo;A financial delegations rebuild that had stalled mid-programme. Taken over and steered to go-live.&rdquo;</h2>
+        <p class="fn-body">A Public-Private-Partnership rebuild of financial delegations had stalled under the previous architect and was on a steering committee watch list. We took over mid-flight, stabilised the design, and rebuilt trust with the programme sponsors before steering it to a clean go-live. We were retained into the support phase. The delegations model is still running in production years later.</p>
+        <div class="fn-result">
+          <div><div class="fn-result-v">Programme recovered</div><div class="fn-result-l">Clean go-live &middot; Still in production years later</div></div>
+        </div>
+        <div class="fn-tags"><span class="fn-tag">SAP FI</span><span class="fn-tag">Programme Recovery</span><span class="fn-tag">Public Sector</span><span class="fn-tag">ABAP</span></div>
+        <a href="index.html#contact" class="fn-microcta">Facing something similar?</a>
+      </div>
+
+      <!-- DISPATCH 03 -->
+      <div class="fn-card">
+        <div class="fn-dispatch">DISPATCH &middot; 03</div>
+        <div class="fn-ind"><span class="fn-ind-dot" style="background:#00D4AA"></span>Financial Services &middot; Engineering &middot; Global</div>
+        <h2 class="fn-title">&ldquo;Two competitive evaluations against established SAP suppliers. Both won with a reusable global workflow framework.&rdquo;</h2>
+        <p class="fn-body">A Swiss bank and a global engineering group were each in procurement for SAP delivery services. We competed with a sharper architecture proposal and a reusable global SRM approval-workflow framework, configurable per country rather than rebuilt per engagement. Both clients selected us. The framework was reused on three further programmes without redevelopment.</p>
+        <div class="fn-result">
+          <div><div class="fn-result-v">2 engagements won</div><div class="fn-result-l">Reusable framework &middot; Deployed on 3 further programmes</div></div>
+        </div>
+        <div class="fn-tags"><span class="fn-tag">SRM</span><span class="fn-tag">ABAP OO</span><span class="fn-tag">Workflow Architecture</span><span class="fn-tag">Global Rollout</span></div>
+        <a href="index.html#contact" class="fn-microcta">Facing something similar?</a>
+      </div>
+
+      <!-- DISPATCH 04 -->
+      <div class="fn-card">
+        <div class="fn-dispatch">DISPATCH &middot; 04</div>
+        <div class="fn-ind"><span class="fn-ind-dot" style="background:#E63946"></span>Oil &amp; Gas &middot; Global Operations &middot; 100+ Systems</div>
+        <h2 class="fn-title">&ldquo;Finance and controlling master data across 100+ SAP clients. No central source of truth. IDOC errors on every sync attempt.&rdquo;</h2>
+        <p class="fn-body">A global oil major ran finance and controlling master data across more than a hundred SAP clients with no authoritative source, and every synchronisation attempt drowned in IDOC errors. We built a distribution layer using IDOC classification and filter logic that routed only the right records to the right systems, plus an automated monitoring grid covering all of them. What used to take a team of administrators the entire week became a daily exception list of a handful of items. The model was rolled out as the global standard for FI/CO master data movement.</p>
+        <div class="fn-result">
+          <div><div class="fn-result-v">100+ SAP systems synchronised</div><div class="fn-result-l">Weekly admin effort &rarr; daily exception list</div></div>
+        </div>
+        <div class="fn-tags"><span class="fn-tag">IDOC</span><span class="fn-tag">ALE</span><span class="fn-tag">FI/CO</span><span class="fn-tag">Master Data</span><span class="fn-tag">Global Rollout</span></div>
+        <a href="index.html#contact" class="fn-microcta">Facing something similar?</a>
+      </div>
+
+      <!-- DISPATCH 05 -->
+      <div class="fn-card">
+        <div class="fn-dispatch">DISPATCH &middot; 05</div>
+        <div class="fn-ind"><span class="fn-ind-dot" style="background:#E63946"></span>Pharma &middot; Global SRM &middot; 20,000 Users &middot; 20 Countries</div>
+        <h2 class="fn-title">&ldquo;FX rates drifting between 20 country ERPs and the central SRM hub. PO valuations breaking every month-end.&rdquo;</h2>
+        <p class="fn-body">Twenty country ERPs were drifting away from the central SRM hub on FX rates, breaking purchase order valuations every month-end. We designed a reverse-alignment process that pulled rates from each ERP, reconciled them centrally, and pushed back a single corrected set on a controlled cadence. Month-end PO disputes dropped to near zero across all 20 countries. The mechanism was made a standing global control in the SRM operating model.</p>
+        <div class="fn-result">
+          <div><div class="fn-result-v">Month-end PO disputes &rarr; near zero</div><div class="fn-result-l">20 countries &middot; 20,000 users &middot; Global SRM control</div></div>
+        </div>
+        <div class="fn-tags"><span class="fn-tag">SRM</span><span class="fn-tag">FI/CO</span><span class="fn-tag">ALE</span><span class="fn-tag">FX</span><span class="fn-tag">ABAP OO</span></div>
+        <a href="index.html#contact" class="fn-microcta">Facing something similar?</a>
+      </div>
+
+      <!-- DISPATCH 06 -->
+      <div class="fn-card">
+        <div class="fn-dispatch">DISPATCH &middot; 06</div>
+        <div class="fn-ind"><span class="fn-ind-dot" style="background:#7C3AED"></span>Travel &middot; Switzerland &middot; Payments &middot; Strategic Advisory</div>
+        <h2 class="fn-title">&ldquo;Five payment providers across multiple booking channels, each integrated separately. No consolidated cash view.&rdquo;</h2>
+        <p class="fn-body">A Swiss travel group was juggling Ingenico, Computop, PayPal, Twint and SEPA across multiple booking channels, with every integration written as a standalone piece of work. We consolidated the payment layer behind a clean API contract and connected hundreds of endpoints through a Python-to-SAP bridge, so new providers could be plugged in within days rather than months. The CFO received a single reconciled view of cash-in across all rails. The same architecture was extended into a blockchain advisory track to the CXO suite.</p>
+        <div class="fn-result">
+          <div><div class="fn-result-v">5 payment rails unified</div><div class="fn-result-l">New provider: days to integrate &middot; Architecture extended to CXO advisory</div></div>
+        </div>
+        <div class="fn-tags"><span class="fn-tag">SAP API</span><span class="fn-tag">Python Integration</span><span class="fn-tag">FI</span><span class="fn-tag">Payments Architecture</span><span class="fn-tag">CXO Advisory</span></div>
+        <a href="index.html#contact" class="fn-microcta">Facing something similar?</a>
+      </div>
+
+      <!-- DISPATCH 07 -->
+      <div class="fn-card">
+        <div class="fn-dispatch">DISPATCH &middot; 07</div>
+        <div class="fn-ind"><span class="fn-ind-dot" style="background:#F59E0B"></span>Software Vendor &middot; SAP Security &middot; R&amp;D</div>
+        <h2 class="fn-title">&ldquo;Two SAP security proof-of-concepts the R&amp;D team had been working on for a year without a working result.&rdquo;</h2>
+        <p class="fn-body">An SAP security vendor needed proof-of-concepts to protect IDOC and RFC payload content in transit, and to keep BI/BO extracts safe during scheduled runs &mdash; both had been in the internal R&amp;D backlog for over a year without a working result. We delivered working POCs against real SAP systems within weeks, including the data-protection hook into the BI scheduling layer. Both became productised features in the vendor&rsquo;s product line.</p>
+        <div class="fn-result">
+          <div><div class="fn-result-v">2 POCs delivered in weeks</div><div class="fn-result-l">Both became productised features</div></div>
+        </div>
+        <div class="fn-tags"><span class="fn-tag">IDOC</span><span class="fn-tag">RFC</span><span class="fn-tag">BW/BI</span><span class="fn-tag">ABAP</span><span class="fn-tag">Security Architecture</span></div>
+        <a href="index.html#contact" class="fn-microcta">Facing something similar?</a>
+      </div>
+
+      <!-- DISPATCH 08 -->
+      <div class="fn-card">
+        <div class="fn-dispatch">DISPATCH &middot; 08</div>
+        <div class="fn-ind"><span class="fn-ind-dot" style="background:#00D4AA"></span>Swiss SME &middot; SAP Integration &middot; Cost Avoidance</div>
+        <h2 class="fn-title">&ldquo;A middleware platform in procurement to expose a handful of SAP endpoints to a SaaS product.&rdquo;</h2>
+        <p class="fn-body">A Swiss SME needed to expose several SAP endpoints to a SaaS product and was on the verge of purchasing a middleware platform to do it. We built token-based REST APIs directly out of SAP using SM59 destinations and native endpoints &mdash; no extra platform, no additional licence, no intermediate hop. The integration went live in weeks and remained straightforward to monitor from inside SAP. The middleware purchase was cancelled.</p>
+        <div class="fn-result">
+          <div><div class="fn-result-v">Middleware platform cancelled</div><div class="fn-result-l">Native SAP REST APIs &middot; Live in weeks &middot; Zero extra licence</div></div>
+        </div>
+        <div class="fn-tags"><span class="fn-tag">SAP REST</span><span class="fn-tag">SM59</span><span class="fn-tag">ABAP</span><span class="fn-tag">Integration Architecture</span></div>
+        <a href="index.html#contact" class="fn-microcta">Facing something similar?</a>
+      </div>
+
+      <!-- DISPATCH 09 -->
+      <div class="fn-card">
+        <div class="fn-dispatch">DISPATCH &middot; 09</div>
+        <div class="fn-ind"><span class="fn-ind-dot" style="background:#4F8EF7"></span>Finance &middot; Document Archiving &middot; Azure</div>
+        <h2 class="fn-title">&ldquo;SAP documents routed through an intermediate archive service before reaching Azure. Cost and latency on every hop.&rdquo;</h2>
+        <p class="fn-body">SAP-generated documents were being routed through an intermediate archive service before landing in the client&rsquo;s Azure environment, adding cost and latency on every transaction. We built a direct SAP-to-Azure BLOB transfer over API so documents went straight from creation to the target storage container. Storage cost dropped, latency dropped, and the intermediate service was decommissioned. Audit signed off on a simpler, more transparent chain of custody.</p>
+        <div class="fn-result">
+          <div><div class="fn-result-v">Intermediate service decommissioned</div><div class="fn-result-l">Direct SAP-to-Azure &middot; Cost &amp; latency reduced &middot; Audit approved</div></div>
+        </div>
+        <div class="fn-tags"><span class="fn-tag">SAP API</span><span class="fn-tag">Azure Blob</span><span class="fn-tag">FI</span><span class="fn-tag">Archiving</span><span class="fn-tag">Integration</span></div>
+        <a href="index.html#contact" class="fn-microcta">Facing something similar?</a>
+      </div>
+
+      <!-- DISPATCH 10 -->
+      <div class="fn-card">
+        <div class="fn-dispatch">DISPATCH &middot; 10</div>
+        <div class="fn-ind"><span class="fn-ind-dot" style="background:#00D4AA"></span>Switzerland &middot; Finance &middot; Regulatory Compliance</div>
+        <h2 class="fn-title">&ldquo;The QR-bill standard arrived. The existing SAP invoice form could not produce a compliant payment slip.&rdquo;</h2>
+        <p class="fn-body">Switzerland&rsquo;s QR-Rechnung standard came into force and the client&rsquo;s existing SAP invoice form was not ready. We delivered a QR-Rechnung output form integrated into the standard billing run, with correct encoding, reference structure, and bank-validated layout. The first compliant run hit production on the regulatory deadline. The form became the template reused across all the client&rsquo;s subsidiaries.</p>
+        <div class="fn-result">
+          <div><div class="fn-result-v">Compliant on regulatory day one</div><div class="fn-result-l">Template reused across all subsidiaries</div></div>
+        </div>
+        <div class="fn-tags"><span class="fn-tag">Adobe Forms</span><span class="fn-tag">ABAP</span><span class="fn-tag">SD</span><span class="fn-tag">Swiss Regulatory</span><span class="fn-tag">QR-Rechnung</span></div>
+        <a href="index.html#contact" class="fn-microcta">Facing something similar?</a>
+      </div>
+
+      <!-- DISPATCH 11 -->
+      <div class="fn-card">
+        <div class="fn-dispatch">DISPATCH &middot; 11</div>
+        <div class="fn-ind"><span class="fn-ind-dot" style="background:#E63946"></span>Pharma &middot; Identity &amp; Access Management &middot; Audit</div>
+        <h2 class="fn-title">&ldquo;SAP user provisioning across the landscape: ticket-driven, days per joiner-mover-leaver cycle.&rdquo;</h2>
+        <p class="fn-body">User provisioning across the SAP landscape was manual &mdash; copy-paste, helpdesk-driven, taking days per joiner-mover-leaver event. We built a Central User Administration automation layer that took HR system events and propagated them across all relevant SAP systems with the correct roles and authorisations &mdash; years before SAP packaged an equivalent capability as standard product. The JML cycle dropped from days to minutes. The control framework passed internal audit on first review.</p>
+        <div class="fn-result">
+          <div><div class="fn-result-v">JML cycle: days &rarr; minutes</div><div class="fn-result-l">Passed internal audit first time</div></div>
+        </div>
+        <div class="fn-tags"><span class="fn-tag">SAP CUA</span><span class="fn-tag">User Administration</span><span class="fn-tag">ABAP</span><span class="fn-tag">Authorisations</span><span class="fn-tag">Audit Compliance</span></div>
+        <a href="index.html#contact" class="fn-microcta">Facing something similar?</a>
+      </div>
+
+      <!-- DISPATCH 12 -->
+      <div class="fn-card">
+        <div class="fn-dispatch">DISPATCH &middot; 12</div>
+        <div class="fn-ind"><span class="fn-ind-dot" style="background:#7AB354"></span>Pharma &middot; Top-10 Global &middot; FI / MM / Workflow</div>
+        <h2 class="fn-title">&ldquo;A two-year backlog of complex FI, MM and workflow defects that the internal team could not close.&rdquo;</h2>
+        <p class="fn-body">An internal team had accumulated two years of complex techno-functional defects spanning FI, MM and custom workflow. We worked through the entire backlog as a single architect-developer, fixing root causes rather than applying workarounds, and cleared it in months. Several underlying patterns were rewritten so the same class of defect could not recur. Escalation to the SAP Centre of Excellence on those topics stopped.</p>
+        <div class="fn-result">
+          <div><div class="fn-result-v">Two-year backlog cleared in months</div><div class="fn-result-l">Root causes fixed &middot; CoE escalations stopped</div></div>
+        </div>
+        <div class="fn-tags"><span class="fn-tag">FI</span><span class="fn-tag">MM</span><span class="fn-tag">ABAP OO</span><span class="fn-tag">Workflow</span><span class="fn-tag">Technical Architecture</span></div>
+        <a href="index.html#contact" class="fn-microcta">Facing something similar?</a>
+      </div>
+
+      <!-- DISPATCH 13 -->
+      <div class="fn-card fn-wide">
+        <div class="fn-main">
+          <div class="fn-dispatch">DISPATCH &middot; 13</div>
+          <div class="fn-ind"><span class="fn-ind-dot" style="background:#4F8EF7"></span>Multiple Sectors &middot; S/4HANA Migration &middot; Greenfield &amp; Brownfield</div>
+          <h2 class="fn-title">&ldquo;S/4HANA migration: the same three issues appear in almost every programme, regardless of sector or approach.&rdquo;</h2>
+          <p class="fn-body">Across more than ten S/4HANA programmes &mdash; greenfield implementations and brownfield system conversions alike, spanning manufacturing, pharma, financial services, and the public sector &mdash; the same points of risk appear before almost every cutover. Custom ABAP that behaves differently against the S/4HANA data model than it did in ECC, often without surfacing an error until a user triggers the right path in UAT. Integration endpoints that were correctly configured at the original go-live and have since drifted without anyone noticing. Functional scope that looks complete in design documentation but reveals gaps when real users open it in the new environment. None of these are unusual. All of them are identifiable earlier in the programme cycle with the right review approach &mdash; and easier to address before the cutover window than during it.</p>
+          <div class="fn-tags"><span class="fn-tag">S/4HANA</span><span class="fn-tag">Brownfield Migration</span><span class="fn-tag">Greenfield Implementation</span><span class="fn-tag">ABAP</span><span class="fn-tag">Technical Architecture</span></div>
+          <a href="index.html#contact" class="fn-microcta">Facing something similar?</a>
+        </div>
+        <div class="fn-outcome">
+          <div class="fn-result">
+            <span class="fn-result-v">10+</span>
+            <span class="fn-result-l">S/4HANA migrations</span>
+          </div>
+          <div class="fn-result" style="background:rgba(79,142,247,.06);border-color:rgba(79,142,247,.18)">
+            <span class="fn-result-v" style="color:#7FB0FF">Greenfield &amp; brownfield</span>
+            <span class="fn-result-l">Multiple sectors and industries</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="fn-close">
+      <p>We are often called in when something is already in difficulty. We are just as useful three months earlier. If you recognise any of these patterns in your current programme, a direct conversation is a straightforward next step.</p>
+      <a href="index.html#contact" class="fn-close-cta">Book a Sprint &rarr;</a>
+    </div>
+
+    <a href="index.html" class="btn-back">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13 8H3M7 12l-4-4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back to Aaweg GmbH
+    </a>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <div class="footer__brand-name">
+        Aaweg GmbH<span class="nav__logo-sub">&middot; Switzerland</span>
+      </div>
+      <span class="footer__copy">&copy; 2026 Aaweg GmbH &middot; All rights reserved &middot; CH-law &middot; MWST-konform</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
