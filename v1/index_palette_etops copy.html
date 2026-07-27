@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Aaweg GmbH – Three senior SAP architects. 49 combined years across S/4HANA, BTP, and modern integration. Swiss-based. Onboarded in days.">
+  <title>Aaweg GmbH – SAP Architecture &amp; Engineering</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Nunito:wght@800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ── ETOPS PALETTE ──────────────────────────────────────────────────────────
+       Source: https://www.etops.com/
+       Primary brand:   #8B48FF (purple)  /  #9E66FF (lighter purple)
+       Backgrounds:     #ffffff (white)   /  #f7f6ff (purple-tinted white)  /  #F0EFFD (lavender)
+       Text:            #1D1D1D  /  #444444  /  #666666  /  #949494
+       Teal accent:     #12c98b  (etops green-teal)
+       Blue/Navy:       #1B2482  (etops deep navy)  /  #2874fc  (etops medium blue)
+       Amber:           #fcb900
+    ── ──────────────────────────────────────────────────────────────────────── */
+    :root {
+      font-size: 18px;
+      --bg:      #ffffff;
+      --bg-2:    #f7f6ff;
+      --bg-3:    #F0EFFD;
+      --surface: #ffffff;
+      --sur-2:   #f7f6ff;
+      --border:       rgba(139,72,255,.13);
+      --border-hi:    rgba(139,72,255,.38);
+      --green:    #8B48FF;    /* etops primary purple */
+      --green-lt: #9E66FF;    /* etops lighter purple */
+      --green-dk: #6B2FE3;    /* etops darker purple */
+      --red:      #8B48FF;    /* CTA → etops brand purple */
+      --red-dk:   #6B2FE3;
+      --blue:     #1B2482;    /* etops deep navy */
+      --blue-lt:  #2874fc;    /* etops medium blue */
+      --teal:     #12c98b;    /* etops teal-green */
+      --purple:   #9b51e0;
+      --amber:    #fcb900;    /* etops amber */
+      --text:   #1D1D1D;
+      --text-2: #444444;
+      --text-3: #666666;
+      --text-4: #949494;
+      --r:    12px;
+      --r-lg: 20px;
+      --r-sm: 8px;
+      --nav-h: 80px;
+      --max-w: 1200px;
+      --t:  .2s ease;
+      --ts: .4s ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg); color: var(--text);
+      line-height: 1.6; overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; font-family: inherit; border: none; background: none; }
+    input, textarea, select { font-family: inherit; }
+
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+    .section    { padding: 100px 0; }
+
+    .sec-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--green); margin-bottom: 14px;
+    }
+    .sec-label::before { content:''; display:block; width:18px; height:2px; background:var(--green); }
+    .sec-title {
+      font-size: clamp(1.85rem,3.8vw,2.8rem); font-weight: 800;
+      line-height: 1.12; letter-spacing: -.025em; margin-bottom: 14px;
+    }
+    .sec-sub { font-size: 1rem; color: var(--text-2); line-height: 1.72; max-width: 560px; }
+
+    /* ── NAV ── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h);
+      z-index: 1000; transition: background var(--t), border-color var(--t), box-shadow var(--t);
+      border-bottom: 1px solid transparent;
+    }
+    .nav.scrolled {
+      background: rgba(247,246,255,.97);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom-color: var(--border);
+      box-shadow: 0 2px 20px rgba(139,72,255,.1);
+    }
+    .nav__inner { display:flex; align-items:center; justify-content:space-between; height:100%; }
+    .nav__logo  { line-height:1; }
+    .nav__logo-name {
+      font-family: 'Nunito','Arial Rounded MT Bold',sans-serif;
+      font-size: 1.75rem; font-weight: 900; color: var(--green); letter-spacing: -.01em;
+      display:flex; align-items:baseline; gap:.15em;
+    }
+    .nav__logo-sub {
+      font-size:.58em; font-weight:700; opacity:.5; letter-spacing:.05em;
+      text-transform:uppercase; font-family:'JetBrains Mono',monospace;
+    }
+    .nav__links { display:flex; align-items:center; gap:2px; list-style:none; }
+    .nav__links a {
+      font-size:1rem; font-weight:500; color:var(--text-3);
+      padding:6px 11px; border-radius:var(--r-sm);
+      transition:color var(--t), background var(--t);
+    }
+    .nav__links a:hover { color:var(--text); background:rgba(139,72,255,.07); }
+    .nav__cta {
+      background:var(--red)!important; color:#fff!important; font-weight:700!important;
+      padding:8px 20px!important; border-radius:var(--r-sm)!important;
+      transition:background var(--t),transform var(--t),box-shadow var(--t)!important;
+    }
+    .nav__cta:hover { background:var(--red-dk)!important; transform:translateY(-1px); box-shadow:0 8px 24px rgba(139,72,255,.32)!important; }
+
+    .nav__burger { display:none; flex-direction:column; gap:5px; padding:8px; }
+    .nav__burger span { display:block; width:22px; height:2px; background:var(--text); border-radius:2px; transition:transform var(--t),opacity var(--t); }
+    .nav__burger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+    .nav__burger.open span:nth-child(2) { opacity:0; }
+    .nav__burger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+
+    .nav__mob {
+      display:none; position:fixed; top:var(--nav-h); left:0; right:0;
+      background:var(--bg-2); border-bottom:1px solid var(--border);
+      padding:12px 16px 20px; z-index:999; flex-direction:column; gap:4px;
+    }
+    .nav__mob.open { display:flex; }
+    .nav__mob a { font-size:1rem; font-weight:500; color:var(--text-3); padding:12px 14px; border-radius:var(--r-sm); transition:background var(--t),color var(--t); }
+    .nav__mob a:hover { background:var(--surface); color:var(--text); }
+    .nav__mob .m-cta { background:var(--red); color:#fff; text-align:center; margin-top:8px; font-weight:700; border-radius:var(--r-sm); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height:100vh; display:flex; flex-direction:column; justify-content:center;
+      position:relative; overflow:hidden; padding-top:var(--nav-h);
+    }
+    .hero__bg {
+      position:absolute; inset:0;
+      background:
+        radial-gradient(ellipse 75% 55% at 50% -8%, rgba(139,72,255,.1) 0%, transparent 60%),
+        radial-gradient(ellipse 45% 40% at 85% 60%, rgba(27,36,130,.07) 0%, transparent 55%),
+        radial-gradient(ellipse 35% 30% at 10% 80%, rgba(18,201,139,.05) 0%, transparent 50%);
+    }
+    .hero__grid {
+      position:absolute; inset:0;
+      background-image:
+        linear-gradient(rgba(139,72,255,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139,72,255,.05) 1px, transparent 1px);
+      background-size:48px 48px;
+      mask-image:radial-gradient(ellipse 90% 80% at 50% 40%, black 20%, transparent 75%);
+    }
+    .hero__content { position:relative; z-index:1; padding:88px 0 72px; }
+
+    .hero__badge {
+      display:inline-flex; align-items:center; gap:8px;
+      background:rgba(139,72,255,.08); border:1px solid rgba(139,72,255,.22);
+      border-radius:100px; padding:5px 16px 5px 8px;
+      font-size:.75rem; font-weight:600; color:var(--green-lt); margin-bottom:28px;
+    }
+    .hero__badge-dot { width:7px; height:7px; background:var(--teal); border-radius:50%; animation:pulse 2.2s ease infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.4)} }
+
+    .hero__title {
+      font-size:clamp(2.6rem,6.5vw,5rem); font-weight:900;
+      line-height:1.04; letter-spacing:-.03em; max-width:820px; margin-bottom:22px;
+    }
+    .hero__title em {
+      font-style:normal;
+      background:linear-gradient(130deg,var(--green) 10%,var(--teal) 90%);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    }
+    .hero__sub { font-size:1rem; color:var(--text-2); line-height:1.72; max-width:580px; margin-bottom:44px; }
+    .hero__actions { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:64px; }
+
+    .btn { display:inline-flex; align-items:center; gap:8px; padding:14px 28px; border-radius:var(--r-sm); font-size:1rem; font-weight:700; transition:all var(--t); white-space:nowrap; }
+    .btn-red   { background:var(--red); color:#fff; }
+    .btn-red:hover   { background:var(--red-dk); transform:translateY(-2px); box-shadow:0 8px 32px rgba(139,72,255,.3); }
+    .btn-ghost { background:transparent; color:var(--text-2); border:1px solid var(--border); }
+    .btn-ghost:hover { background:var(--bg-2); color:var(--text); border-color:rgba(139,72,255,.25); }
+
+    .hero__stats { display:flex; flex-wrap:wrap; border-top:1px solid var(--border); padding-top:28px; gap:0; }
+    .hero__stat  { display:flex; flex-direction:column; padding:0 32px 0 0; margin-right:32px; border-right:1px solid var(--border); }
+    .hero__stat:last-child { border-right:none; padding-right:0; margin-right:0; }
+    .hero__stat-v { font-size:2rem; font-weight:800; line-height:1; letter-spacing:-.03em; color:var(--green); }
+    .hero__stat-l { font-size:.75rem; color:var(--text-3); margin-top:4px; font-weight:500; }
+
+    /* ── SERVICES ── */
+    .services { background:var(--bg-2); }
+    .services__hd { margin-bottom:56px; }
+    .services__grid { display:grid; grid-template-columns:repeat(2,1fr); gap:22px; }
+
+    .svc-card {
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:var(--r-lg); overflow:hidden; position:relative;
+      transition:border-color var(--ts),transform var(--t),box-shadow var(--ts);
+    }
+    .svc-card:hover { transform:translateY(-5px); border-color:rgba(139,72,255,.28); box-shadow:0 20px 60px rgba(139,72,255,.1); }
+
+    .svc-visual {
+      height:108px; display:flex; align-items:center; justify-content:space-between;
+      padding:0 26px; position:relative; overflow:hidden;
+    }
+    .svc-visual-num {
+      font-size:7rem; font-weight:900; line-height:1; color:rgba(0,0,0,.04);
+      font-family:'JetBrains Mono',monospace; position:absolute; right:12px; bottom:-14px;
+      letter-spacing:-.06em; user-select:none; pointer-events:none;
+    }
+    .svc-visual-sym { font-size:2.8rem; line-height:1; position:relative; z-index:1; }
+    .svc-visual-tag {
+      font-size:.75rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+      padding:4px 11px; border-radius:100px; border:1px solid currentColor;
+      position:relative; z-index:1; opacity:.7;
+    }
+
+    .svc-1 .svc-visual { background:linear-gradient(135deg,rgba(27,36,130,.1),rgba(27,36,130,.03)); }
+    .svc-1 .svc-visual-sym,.svc-1 .svc-visual-tag,.svc-1 .svc-cta,.svc-1 .svc-feats li::before { color:var(--blue-lt); }
+    .svc-2 .svc-visual { background:linear-gradient(135deg,rgba(18,201,139,.12),rgba(18,201,139,.03)); }
+    .svc-2 .svc-visual-sym,.svc-2 .svc-visual-tag,.svc-2 .svc-cta,.svc-2 .svc-feats li::before { color:var(--teal); }
+    .svc-3 .svc-visual { background:linear-gradient(135deg,rgba(252,185,0,.12),rgba(252,185,0,.03)); }
+    .svc-3 .svc-visual-sym,.svc-3 .svc-visual-tag,.svc-3 .svc-cta,.svc-3 .svc-feats li::before { color:var(--amber); }
+    .svc-4 .svc-visual { background:linear-gradient(135deg,rgba(139,72,255,.15),rgba(139,72,255,.03)); }
+    .svc-4 .svc-visual-sym,.svc-4 .svc-visual-tag,.svc-4 .svc-cta,.svc-4 .svc-feats li::before { color:#8B48FF; }
+
+    .svc-body  { padding:22px 26px 26px; }
+    .svc-title { font-size:1.25rem; font-weight:800; letter-spacing:-.02em; margin-bottom:9px; }
+    .svc-desc  { font-size:1rem; color:var(--text-2); line-height:1.65; margin-bottom:16px; }
+    .svc-feats { list-style:none; margin-bottom:18px; }
+    .svc-feats li { display:flex; align-items:flex-start; gap:8px; font-size:1rem; color:var(--text-3); padding:3px 0; }
+    .svc-feats li::before { content:'→'; font-weight:700; flex-shrink:0; margin-top:1px; }
+    .svc-price { font-size:1rem; color:var(--text-3); margin-bottom:13px; }
+    .svc-price strong { font-size:1rem; color:var(--text); font-weight:700; }
+    .svc-cta { display:inline-flex; align-items:center; gap:6px; font-size:1rem; font-weight:700; transition:gap var(--t),color var(--t); }
+    .svc-card:hover .svc-cta { gap:10px; }
+
+    /* ── THE FIELD NOTES ── */
+    .fnotes { background:var(--bg-3); border-top:1px solid var(--border); }
+    .fnotes__intro { font-size:1rem; color:var(--text-2); line-height:1.72; max-width:640px; margin-bottom:52px; }
+    .fnotes__grid  { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .fn-wide       { grid-column:1/-1; }
+
+    .fn-card {
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:var(--r-lg); padding:26px 26px 22px;
+      display:flex; flex-direction:column;
+      transition:border-color var(--ts),transform var(--t);
+    }
+    .fn-card:hover { transform:translateY(-3px); border-color:rgba(139,72,255,.22); }
+
+    .fn-wide.fn-card { padding:30px; flex-direction:row; gap:44px; align-items:flex-start; }
+    .fn-main { flex:1; }
+    .fn-outcome { flex-shrink:0; width:230px; display:flex; flex-direction:column; gap:10px; padding-top:2px; }
+
+    .fn-dispatch { font-size:.75rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--text-4); font-family:'JetBrains Mono',monospace; margin-bottom:11px; }
+    .fn-ind { display:inline-flex; align-items:center; gap:6px; font-size:.75rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--text-3); margin-bottom:11px; }
+    .fn-ind-dot { width:6px; height:6px; border-radius:50%; display:inline-block; flex-shrink:0; }
+    .fn-title { font-size:1.25rem; font-weight:800; line-height:1.3; letter-spacing:-.01em; margin-bottom:11px; }
+    .fn-wide .fn-title { font-size:1.25rem; }
+    .fn-body  { font-size:1rem; color:var(--text-2); line-height:1.68; flex:1; }
+    .fn-wide .fn-body { font-size:1rem; }
+
+    .fn-result {
+      margin-top:18px; display:flex; align-items:flex-start; gap:10px;
+      background:rgba(139,72,255,.06); border:1px solid rgba(139,72,255,.16);
+      border-radius:var(--r-sm); padding:11px 14px;
+    }
+    .fn-outcome .fn-result { margin-top:0; flex-direction:column; gap:3px; padding:14px; }
+    .fn-result-v { font-size:1rem; font-weight:800; color:var(--green); white-space:nowrap; }
+    .fn-outcome .fn-result-v { font-size:1.25rem; }
+    .fn-result-l { font-size:.75rem; color:var(--text-3); }
+
+    .fn-tags { display:flex; flex-wrap:wrap; gap:5px; margin-top:14px; }
+    .fn-tag  { font-size:.75rem; background:var(--bg-2); border:1px solid var(--border); border-radius:100px; padding:3px 9px; color:var(--text-4); font-family:'JetBrains Mono',monospace; }
+
+    /* ── THE MOAT ── */
+    .moat {
+      border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+      background:linear-gradient(180deg,var(--bg-2) 0%,var(--bg-3) 50%,var(--bg-2) 100%);
+    }
+    .moat__grid { display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:center; }
+    .moat__de-title { font-size:clamp(1.6rem,3.5vw,2.3rem); font-weight:800; letter-spacing:-.022em; line-height:1.18; margin-bottom:16px; }
+    .moat__body { font-size:1rem; color:var(--text-2); line-height:1.76; margin-bottom:18px; }
+    .moat__trust { display:flex; flex-direction:column; gap:9px; margin-top:8px; }
+    .moat__ti { display:flex; align-items:center; gap:11px; font-size:1rem; color:var(--text-2); }
+    .moat__ti-ico { width:32px; height:32px; flex-shrink:0; background:rgba(139,72,255,.08); border:1px solid rgba(139,72,255,.2); border-radius:var(--r-sm); display:flex; align-items:center; justify-content:center; font-size:.9rem; }
+
+    .cap-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg); padding:26px; box-shadow:0 4px 24px rgba(139,72,255,.08); }
+    .cap-stats { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:20px; }
+    .cap-stat { display:flex; flex-direction:column; }
+    .cap-stat-v { font-size:1.75rem; font-weight:800; letter-spacing:-.03em; line-height:1; color:var(--green); }
+    .cap-stat-l { font-size:.75rem; color:var(--text-3); margin-top:4px; font-weight:500; }
+    .cap-div { border:none; border-top:1px solid var(--border); margin:16px 0; }
+    .cap-lbl { font-size:.75rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--text-4); margin-bottom:9px; }
+    .cap-tags { display:flex; flex-wrap:wrap; gap:6px; }
+    .ctag { font-size:.75rem; font-weight:600; padding:3px 10px; border-radius:100px; background:var(--sur-2); border:1px solid var(--border); color:var(--text-2); }
+    .ctag.sap { background:rgba(27,36,130,.07); border-color:rgba(27,36,130,.2); color:#1B2482; }
+    .ctag.mod { background:rgba(18,201,139,.07); border-color:rgba(18,201,139,.2); color:#0a8f62; }
+    .cap-langs { display:flex; gap:7px; flex-wrap:wrap; margin-top:10px; }
+    .clang { font-size:.75rem; font-weight:700; background:var(--bg-2); border:1px solid var(--border); border-radius:6px; padding:4px 9px; color:var(--text-2); font-family:'JetBrains Mono',monospace; }
+
+    /* ── TECH STACK ── */
+    .stack { background:var(--bg-2); }
+    .stack__split { display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:58px; }
+    .stack-panel  { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg); overflow:hidden; }
+    .stack-ph { padding:17px 22px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; }
+    .stack-ph-title { font-size:1rem; font-weight:700; }
+    .stack-ph-sub   { font-size:.75rem; color:var(--text-3); margin-left:auto; font-family:'JetBrains Mono',monospace; }
+    .stack-items { padding:18px 22px; display:flex; flex-direction:column; gap:12px; }
+    .stack-row  { display:flex; align-items:center; gap:12px; }
+    .stack-name { font-size:.875rem; font-weight:600; color:var(--text-2); font-family:'JetBrains Mono',monospace; width:130px; flex-shrink:0; }
+    .stack-bw   { flex:1; height:4px; background:rgba(139,72,255,.1); border-radius:2px; overflow:hidden; }
+    .stack-bar  { height:100%; border-radius:2px; width:0%; transition:width 1.4s cubic-bezier(.4,0,.2,1); }
+    .stack-yrs  { font-size:.75rem; color:var(--text-4); font-family:'JetBrains Mono',monospace; width:100px; text-align:right; flex-shrink:0; }
+
+    /* ── CONTACT ── */
+    .contact__grid { display:grid; grid-template-columns:1fr 1.6fr; gap:60px; align-items:start; }
+    .contact__stick { position:sticky; top:calc(var(--nav-h) + 28px); }
+
+    .rate-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg); padding:22px; margin-top:26px; }
+    .rate-lbl  { font-size:.75rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--text-3); margin-bottom:13px; }
+    .rate-row  { display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-bottom:1px solid var(--border); }
+    .rate-row:last-of-type { border-bottom:none; }
+    .rate-name { font-size:1rem; color:var(--text-2); }
+    .rate-val  { font-size:1rem; font-weight:700; font-family:'JetBrains Mono',monospace; }
+    .rate-note { font-size:.75rem; color:var(--text-4); margin-top:9px; }
+    .trust-list { display:flex; flex-direction:column; gap:9px; margin-top:20px; }
+    .trust-item { display:flex; align-items:center; gap:9px; font-size:1rem; color:var(--text-2); }
+    .trust-ck   { color:var(--green-lt); flex-shrink:0; }
+
+    .form-card  { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg); padding:34px; box-shadow:0 4px 32px rgba(139,72,255,.08); }
+    .form-title { font-size:1.25rem; font-weight:800; letter-spacing:-.015em; margin-bottom:5px; }
+    .form-sub   { font-size:1rem; color:var(--text-3); margin-bottom:24px; }
+    .f-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .f-grp { display:flex; flex-direction:column; gap:5px; margin-bottom:12px; }
+    .f-lbl { font-size:.75rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--text-3); }
+    .f-inp,.f-sel,.f-ta { background:var(--bg-2); border:1px solid var(--border); border-radius:var(--r-sm); padding:11px 13px; font-size:1rem; color:var(--text); transition:border-color var(--t),box-shadow var(--t); outline:none; width:100%; }
+    .f-inp::placeholder,.f-ta::placeholder { color:var(--text-4); }
+    .f-inp:focus,.f-sel:focus,.f-ta:focus { border-color:rgba(139,72,255,.5); box-shadow:0 0 0 3px rgba(139,72,255,.1); }
+    .f-inp.err { border-color:var(--red); }
+    .f-sel { appearance:none; -webkit-appearance:none; cursor:pointer; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 11 11'%3E%3Cpath fill='%23949494' d='M5.5 7.5L.5 2.5h10z'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; padding-right:32px; }
+    .f-sel option { background:var(--surface); }
+    .f-ta { resize:vertical; min-height:88px; }
+    .f-submit { width:100%; background:var(--red); color:#fff; padding:15px 28px; border-radius:var(--r-sm); font-size:1rem; font-weight:800; margin-top:6px; transition:background var(--t),transform var(--t),box-shadow var(--t); }
+    .f-submit:hover { background:var(--red-dk); transform:translateY(-2px); box-shadow:0 8px 32px rgba(139,72,255,.3); }
+    .f-submit:disabled { opacity:.6; cursor:not-allowed; transform:none; }
+    .f-note { font-size:.75rem; color:var(--text-4); text-align:center; margin-top:9px; }
+    .f-success { display:none; text-align:center; padding:44px 16px; }
+    .f-success.show { display:block; }
+    .f-success-ico   { font-size:2.8rem; margin-bottom:13px; }
+    .f-success-title { font-size:1.25rem; font-weight:700; margin-bottom:7px; }
+    .f-success-body  { font-size:1rem; color:var(--text-2); line-height:1.65; }
+
+    /* ── FOOTER ── */
+    .footer { background:var(--bg-2); border-top:1px solid var(--border); padding:48px 0 26px; }
+    .footer__top { display:flex; justify-content:space-between; align-items:flex-start; gap:32px; flex-wrap:wrap; margin-bottom:30px; }
+    .footer__brand { max-width:260px; }
+    .footer__brand-name { font-family:'Nunito','Arial Rounded MT Bold',sans-serif; font-size:1.25rem; font-weight:900; color:var(--green); margin-bottom:7px; }
+    .footer__brand-desc { font-size:1rem; color:var(--text-3); line-height:1.6; }
+    .footer__cols { display:flex; gap:52px; }
+    .footer__col h4 { font-size:.75rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--text-3); margin-bottom:12px; }
+    .footer__col ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
+    .footer__col li a { font-size:1rem; color:var(--text-3); transition:color var(--t); }
+    .footer__col li a:hover { color:var(--text); }
+    .footer__bot { padding-top:18px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+    .footer__copy,.footer__ch { font-size:.75rem; color:var(--text-4); }
+
+    /* ── FLOAT CTA ── */
+    .float-cta { display:none; position:fixed; bottom:22px; left:50%; transform:translateX(-50%); z-index:900; }
+    .float-cta a { display:flex; align-items:center; gap:8px; background:var(--red); color:#fff; padding:13px 28px; border-radius:100px; font-weight:800; font-size:1rem; box-shadow:0 8px 32px rgba(139,72,255,.38); transition:background var(--t); }
+    .float-cta a:hover { background:var(--red-dk); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)} }
+    .anim { opacity:0; animation:fadeUp .55s ease forwards; }
+    .d1{animation-delay:.08s} .d2{animation-delay:.2s} .d3{animation-delay:.32s} .d4{animation-delay:.44s}
+    .reveal { opacity:0; transform:translateY(16px); transition:opacity .55s ease,transform .55s ease; }
+    .reveal.vis { opacity:1; transform:translateY(0); }
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:960px) {
+      .moat__grid    { grid-template-columns:1fr; gap:44px; }
+      .moat__visual  { order:-1; }
+      .stack__split  { grid-template-columns:1fr; }
+      .contact__grid { grid-template-columns:1fr; gap:36px; }
+      .contact__stick{ position:static; }
+    }
+    @media(max-width:768px) {
+      :root { --nav-h:68px; }
+      .section { padding:68px 0; }
+      .nav__links { display:none; }
+      .nav__burger { display:flex; }
+      .services__grid { grid-template-columns:1fr; }
+      .fnotes__grid   { grid-template-columns:1fr; }
+      .fn-wide        { grid-column:1; }
+      .fn-wide.fn-card{ flex-direction:column; gap:24px; }
+      .fn-outcome     { width:100%; }
+      .f-row          { grid-template-columns:1fr; }
+      .form-card      { padding:20px; }
+      .footer__top    { flex-direction:column; }
+      .footer__cols   { gap:32px; }
+      .float-cta      { display:block; }
+    }
+    @media(max-width:480px) {
+      .container { padding:0 14px; }
+      .hero__actions { flex-direction:column; }
+      .btn           { justify-content:center; }
+      .hero__stat    { border-right:none; padding-right:0; margin-right:16px; }
+      .cap-stats     { grid-template-columns:1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="container">
+    <div class="nav__inner">
+      <a href="#" class="nav__logo" aria-label="Aaweg GmbH Zürich">
+        <span class="nav__logo-name">Aaweg GmbH<span class="nav__logo-sub">&middot; Switzerland</span></span>
+      </a>
+      <ul class="nav__links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#fieldnotes">Field Notes</a></li>
+        <li><a href="#moat">Why Us</a></li>
+        <li><a href="#stack">Tech</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="#contact" class="nav__cta">Book a Sprint &rarr;</a></li>
+      </ul>
+      <button class="nav__burger" id="burger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<nav class="nav__mob" id="navMob" aria-label="Mobile navigation">
+  <a href="#services"    class="mnav">Services</a>
+  <a href="#fieldnotes"  class="mnav">Field Notes</a>
+  <a href="#moat"        class="mnav">Why Us</a>
+  <a href="#stack"       class="mnav">Tech</a>
+  <a href="pricing.html" class="mnav">Pricing</a>
+  <a href="#contact"     class="mnav m-cta">Book a Sprint &rarr;</a>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<section class="hero" id="home">
+  <div class="hero__bg"></div>
+  <div class="hero__grid"></div>
+  <div class="container">
+    <div class="hero__content">
+      <div class="hero__badge anim d1">
+        <span class="hero__badge-dot"></span>
+        Senior Engineers with top-notch consulting and communication experience &middot; All Swiss-based &middot; Available Now
+      </div>
+      <h1 class="hero__title anim d2">
+        SAP Architecture and Engineering.<br>
+        <em>Swiss based. Unique engagement.</em>
+      </h1>
+      <p class="hero__sub anim d3">
+        Senior SAP solution architecture and hands-on development &mdash; delivered direct.
+        20+ years across S/4HANA, BTP, and modern integration stacks. Onboarded in days, not months.
+        The expert who designs your solution is the one who builds it. No junior handoffs. Just results.
+        Deep international Fortune 500 experience meeting intimate Swiss quality and process understanding.
+      </p>
+      <div class="hero__actions anim d4">
+        <a href="#contact" class="btn btn-red">
+          Book a Sprint
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#fieldnotes" class="btn btn-ghost">Read the Field Notes</a>
+      </div>
+      <div class="hero__stats anim d4">
+        <div class="hero__stat"><span class="hero__stat-v">35+</span><span class="hero__stat-l">Reputable Clients</span></div>
+        <div class="hero__stat"><span class="hero__stat-v">60+</span><span class="hero__stat-l">Projects Delivered</span></div>
+        <div class="hero__stat"><span class="hero__stat-v">10+</span><span class="hero__stat-l">Industries</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SERVICES
+════════════════════════════════════════ -->
+<section class="services section" id="services">
+  <div class="container">
+    <div class="services__hd">
+      <p class="sec-label">Service Packages</p>
+      <h2 class="sec-title">The work you need,<br>no budget bloat.</h2>
+      <p class="sec-sub">Four engagement models for Swiss KMUs and Corporations that need senior SAP expertise without the overhead of a full programme team. Senior from day one, every day.</p>
+    </div>
+    <div class="services__grid">
+
+      <div class="svc-card svc-1 reveal" data-svc="architect-retainer">
+        <div class="svc-visual">
+          <span class="svc-visual-sym">◈</span>
+          <span class="svc-visual-tag">Monthly &middot; Architecture</span>
+          <span class="svc-visual-num">01</span>
+        </div>
+        <div class="svc-body">
+          <h3 class="svc-title">Architect on Retainer</h3>
+          <p class="svc-desc">Your senior SAP brain, available each month. For KMUs that need expert oversight on critical architecture decisions without a full-time headcount.</p>
+          <ul class="svc-feats">
+            <li>Architecture decisions &amp; technical governance</li>
+            <li>S/4HANA, BTP and integration design reviews</li>
+            <li>Async Q&amp;A + up to 4 sync sessions per month</li>
+            <li>Go-live escalation support</li>
+          </ul>
+          <p class="svc-price"><a href="pricing.html" style="color:var(--green-lt);font-weight:700">See pricing</a></p>
+          <a href="#contact" class="svc-cta">Book a call &rarr;</a>
+        </div>
+      </div>
+
+      <div class="svc-card svc-2 reveal" data-svc="focused-sprint">
+        <div class="svc-visual">
+          <span class="svc-visual-sym">&xrarr;</span>
+          <span class="svc-visual-tag">Fixed-scope &middot; Ship fast</span>
+          <span class="svc-visual-num">02</span>
+        </div>
+        <div class="svc-body">
+          <h3 class="svc-title">The Focused Sprint</h3>
+          <p class="svc-desc">Define the scope. Build it. Ship it. Fixed-scope delivery of a strategic initiative, MVP, or integration challenge. Weeks, not quarters.</p>
+          <ul class="svc-feats">
+            <li>Strategy, architecture and partner selection advisory</li>
+            <li>SAP-to-modern stack integrations (APIs, Python, AI)</li>
+            <li>Fiori / RAP / BTP application MVP delivery</li>
+            <li>S/4HANA migration scoping &amp; roadmap</li>
+          </ul>
+          <p class="svc-price"><a href="pricing.html" style="color:var(--green-lt);font-weight:700">See pricing</a> &middot; fixed-price available</p>
+          <a href="#contact" class="svc-cta">Scope a sprint &rarr;</a>
+        </div>
+      </div>
+
+      <div class="svc-card svc-3 reveal" data-svc="legacy-guardian">
+        <div class="svc-visual">
+          <span class="svc-visual-sym">&#9673;</span>
+          <span class="svc-visual-tag">Monthly &middot; Support</span>
+          <span class="svc-visual-num">03</span>
+        </div>
+        <div class="svc-body">
+          <h3 class="svc-title">Legacy Guardian</h3>
+          <p class="svc-desc">Your custom ABAP estate is running your business. We keep it alive, stable, and evolving &mdash; including the parts no one else wants to touch.</p>
+          <ul class="svc-feats">
+            <li>Ongoing ECC / S/4 ABAP support &amp; monitoring</li>
+            <li>Bug triage, performance tuning, regression fixes</li>
+            <li>Functional evolution without full re-implementation</li>
+            <li>Monthly day-bucket; unused days roll over</li>
+          </ul>
+          <p class="svc-price"><a href="pricing.html" style="color:var(--green-lt);font-weight:700">See pricing</a> &middot; 3-day bucket</p>
+          <a href="#contact" class="svc-cta">Get coverage &rarr;</a>
+        </div>
+      </div>
+
+      <div class="svc-card svc-4 reveal" data-svc="rnd-forge">
+        <div class="svc-visual">
+          <span class="svc-visual-sym">&#11041;</span>
+          <span class="svc-visual-tag">POC &middot; R&amp;D &middot; Integration</span>
+          <span class="svc-visual-num">04</span>
+        </div>
+        <div class="svc-body">
+          <h3 class="svc-title">R&amp;D Forge</h3>
+          <p class="svc-desc">Connect SAP to anything. AI agents, Python pipelines, web portals, event streams. We build the MVPs others call unfeasible. Bring the unusual problem.</p>
+          <ul class="svc-feats">
+            <li>SAP &harr; AI / LLM agent integrations</li>
+            <li>Python data pipelines from SAP sources</li>
+            <li>BTP cloud-native and side-by-side prototypes</li>
+            <li>Proof-of-concept in 2&ndash;4 weeks</li>
+          </ul>
+          <p class="svc-price"><a href="pricing.html" style="color:var(--green-lt);font-weight:700">See pricing</a> &middot; POC packages available</p>
+          <a href="#contact" class="svc-cta">Forge something &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     THE FIELD NOTES
+════════════════════════════════════════ -->
+<section class="fnotes section" id="fieldnotes">
+  <div class="container">
+    <p class="sec-label">The Field Notes</p>
+    <h2 class="sec-title">These problems<br>have appeared before.</h2>
+    <p class="fnotes__intro">
+      Across industries, systems, and years, certain SAP situations surface with the same urgency
+      and the same constraints. Here are patterns we have already worked through &mdash;
+      in case one of them looks familiar.
+    </p>
+
+    <div class="fnotes__grid">
+
+      <!-- 01 -->
+      <div class="fn-card reveal">
+        <div class="fn-dispatch">DISPATCH &middot; 01</div>
+        <div class="fn-ind"><span class="fn-ind-dot" style="background:#fcb900"></span>Manufacturing &middot; Global Operations</div>
+        <h3 class="fn-title">"SAP and the warehouse could see each other. Operationally, they were blind."</h3>
+        <p class="fn-body">A high-bay warehouse and SAP were technically integrated but operators couldn&rsquo;t see weight, position, or conveyor state inside SAP. We engineered a real-time interface so a warehouse user opening an SAP screen sees the live weight of goods on the conveyor. The plant gained instant reconciliation between physical flow and book inventory. The team behind it became the founding nucleus of the client&rsquo;s SAP Global Competency Centre.</p>
+        <div class="fn-result">
+          <div><div class="fn-result-v">Real-time visibility</div><div class="fn-result-l">Founded client&rsquo;s SAP Global Competency Centre</div></div>
+        </div>
+        <div class="fn-tags"><span class="fn-tag">ABAP OO</span><span class="fn-tag">MM</span><span class="fn-tag">MM-MOB</span><span class="fn-tag">Real-time Interfaces</span></div>
+      </div>
+
+      <!-- 02 -->
+      <div class="fn-card reveal">
+        <div class="fn-dispatch">DISPATCH &middot; 02</div>
+        <div class="fn-ind"><span class="fn-ind-dot" style="background:#8B48FF"></span>Pharma &middot; Global SRM &middot; 20,000 users</div>
+        <h3 class="fn-title">"PO valuations were breaking every month end. Across 20 countries."</h3>
+        <p class="fn-body">Twenty country ERPs were drifting from the central SRM hub on FX rates, causing PO valuation failures each month. We designed a reverse-alignment process that pulled rates from each ERP, reconciled them centrally, and pushed back a single corrected set on a controlled cadence. Month-end PO disputes dropped to near zero across all 20 countries. The mechanism became a standing global control in the SRM operating model.</p>
+        <div class="fn-result">
+          <div><div class="fn-result-v">Month-end disputes &rarr; near zero</div><div class="fn-result-l">20 countries, 20,000 users</div></div>
+        </div>
+        <div class="fn-tags"><span class="fn-tag">SRM</span><span class="fn-tag">FI/CO</span><span class="fn-tag">ALE</span><span class="fn-tag">ABAP OO</span></div>
+      </div>
+
+      <!-- 03 -->
+      <div class="fn-card reveal">
+        <div class="fn-dispatch">DISPATCH &middot; 03</div>
+        <div class="fn-ind"><span class="fn-ind-dot" style="background:#1B2482"></span>Financial Services &middot; Engineering</div>
+        <h3 class="fn-title">"Both clients were about to extend their incumbent SAP vendors by default."</h3>
+        <p class="fn-body">A Swiss bank and a global engineering group were each poised to sign again with their existing SAP supplier. We competed with a sharper architecture proposal and a reusable global SRM approval-workflow framework configurable per country rather than rebuilt per client. Both switched. The same workflow framework was deployed on three subsequent programmes without redevelopment.</p>
+        <div class="fn-result">
+          <div><div class="fn-result-v">2 major clients won</div><div class="fn-result-l">Framework reused on 3 further programmes</div></div>
+        </div>
+        <div class="fn-tags"><span class="fn-tag">SRM</span><span class="fn-tag">ABAP OO</span><span class="fn-tag">Workflow</span><span class="fn-tag">Global Rollout</span></div>
+      </div>
+
+      <!-- 04 -->
+      <div class="fn-card reveal">
+        <div class="fn-dispatch">DISPATCH &middot; 04</div>
+        <div class="fn-ind"><span class="fn-ind-dot" style="background:#12c98b"></span>Finance &middot; Swiss Compliance</div>
+        <h3 class="fn-title">"The QR-bill deadline arrived. The invoice form could not produce a compliant slip."</h3>
+        <p class="fn-body">Switzerland&rsquo;s QR-bill standard came into force and the client&rsquo;s existing SAP invoice form was not ready. We delivered a QR-Rechnung form integrated into the standard billing output, with correct encoding, reference structure, and bank-validated layout &mdash; on the regulatory deadline. The form became the template reused across the client&rsquo;s subsidiaries.</p>
+        <div class="fn-result">
+          <div><div class="fn-result-v">Compliant on day one</div><div class="fn-result-l">Template reused across all subsidiaries</div></div>
+        </div>
+        <div class="fn-tags"><span class="fn-tag">Adobe Forms</span><span class="fn-tag">ABAP</span><span class="fn-tag">SD</span><span class="fn-tag">Swiss Regulatory</span></div>
+      </div>
+
+    </div>
+
+    <div style="margin-top:40px;text-align:center">
+      <a href="fieldnotes.html" class="btn btn-ghost" style="display:inline-flex">
+        Read more
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     THE MOAT — GERMAN
+════════════════════════════════════════ -->
+<section class="moat section" id="moat">
+  <div class="container">
+    <div class="moat__grid">
+
+      <div>
+        <p class="sec-label">Why Aaweg</p>
+        <h2 class="moat__de-title reveal">
+          Swiss quality.<br>
+          Senior from day one.<br>
+          Straight answers.
+        </h2>
+        <p class="moat__body reveal">
+          Three SAP architects. All Switzerland-based. All reachable directly.
+          No information loss between scoping and delivery, no long run-up times,
+          no surprises on quality or timing.
+        </p>
+        <p class="moat__body reveal">
+          Experience across Pharma, Finance, Biotech, Public Sector, Retail, and Industry.
+          We know Swiss requirements, work to Swiss standards, and think in your business processes.
+          80% impact, 20% of the usual overhead.
+        </p>
+        <div class="moat__trust reveal">
+          <div class="moat__ti"><span class="moat__ti-ico">🇨🇭</span>Swiss company &middot; VAT-registered &middot; Swiss law contract</div>
+          <div class="moat__ti"><span class="moat__ti-ico">⚖️</span>Clear terms &middot; NDA on same-day request &middot; Fixed-price options</div>
+          <div class="moat__ti"><span class="moat__ti-ico">📍</span>Switzerland</div>
+        </div>
+      </div>
+
+      <div class="moat__visual reveal">
+        <div class="cap-card">
+          <div class="cap-stats">
+            <div class="cap-stat"><span class="cap-stat-v">49+</span><span class="cap-stat-l">Combined years</span></div>
+            <div class="cap-stat"><span class="cap-stat-v">20+</span><span class="cap-stat-l">S/4HANA go-lives</span></div>
+            <div class="cap-stat"><span class="cap-stat-v">10+</span><span class="cap-stat-l">Industries</span></div>
+          </div>
+          <hr class="cap-div">
+          <div class="cap-lbl">SAP Core Coverage</div>
+          <div class="cap-tags">
+            <span class="ctag sap">ABAP OO</span>
+            <span class="ctag sap">S/4HANA</span>
+            <span class="ctag sap">RAP</span>
+            <span class="ctag sap">BTP</span>
+            <span class="ctag sap">Fiori / UI5</span>
+            <span class="ctag sap">HANA SQL</span>
+            <span class="ctag sap">EWM</span>
+            <span class="ctag sap">MDG</span>
+            <span class="ctag sap">FI / CO</span>
+            <span class="ctag sap">MM / SD / QM</span>
+            <span class="ctag sap">SRM</span>
+            <span class="ctag sap">HCM</span>
+          </div>
+          <hr class="cap-div">
+          <div class="cap-lbl">Modern Stack</div>
+          <div class="cap-tags">
+            <span class="ctag mod">Python</span>
+            <span class="ctag mod">REST APIs</span>
+            <span class="ctag mod">AI / LLM</span>
+            <span class="ctag mod">Integration Suite</span>
+            <span class="ctag mod">Cloud AWS/Azure</span>
+            <span class="ctag mod">Kafka / Events</span>
+            <span class="ctag">CFA Track</span>
+            <span class="ctag">C-Suite Comms</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     TECH STACK
+════════════════════════════════════════ -->
+<section class="stack section" id="stack">
+  <div class="container">
+    <p class="sec-label">Technical Depth</p>
+    <h2 class="sec-title">SAP-native.<br>Modern-ready.</h2>
+    <p class="sec-sub">Three practitioners who operate fluently in both worlds. The depth to architect the SAP side correctly, and the range to connect it to whatever sits outside it.</p>
+    <div class="stack__split">
+
+      <div class="stack-panel reveal" id="sapPanel">
+        <div class="stack-ph">
+          <span>🔷</span>
+          <span class="stack-ph-title">SAP Core</span>
+          <span class="stack-ph-sub">49+ combined years</span>
+        </div>
+        <div class="stack-items">
+          <div class="stack-row"><span class="stack-name">ABAP / OO</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#1B2482,#2874fc)" data-w="98%"></div></div><span class="stack-yrs">20+ yrs &middot; all 3</span></div>
+          <div class="stack-row"><span class="stack-name">S/4HANA</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#1B2482,#2874fc)" data-w="95%"></div></div><span class="stack-yrs">20+ go-lives</span></div>
+          <div class="stack-row"><span class="stack-name">RAP / OData</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#1B2482,#2874fc)" data-w="88%"></div></div><span class="stack-yrs">5+ yrs</span></div>
+          <div class="stack-row"><span class="stack-name">BTP</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#1B2482,#2874fc)" data-w="85%"></div></div><span class="stack-yrs">4+ yrs</span></div>
+          <div class="stack-row"><span class="stack-name">Fiori / UI5</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#1B2482,#2874fc)" data-w="86%"></div></div><span class="stack-yrs">6+ yrs</span></div>
+          <div class="stack-row"><span class="stack-name">EWM / MDG</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#1B2482,#2874fc)" data-w="82%"></div></div><span class="stack-yrs">5+ yrs</span></div>
+          <div class="stack-row"><span class="stack-name">HANA SQL</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#1B2482,#2874fc)" data-w="90%"></div></div><span class="stack-yrs">8+ yrs</span></div>
+        </div>
+      </div>
+
+      <div class="stack-panel reveal" id="modPanel">
+        <div class="stack-ph">
+          <span>⚡</span>
+          <span class="stack-ph-title">Modern Edge</span>
+          <span class="stack-ph-sub">Where most SAP teams stop</span>
+        </div>
+        <div class="stack-items">
+          <div class="stack-row"><span class="stack-name">REST / APIs</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#12c98b,#1B2482)" data-w="94%"></div></div><span class="stack-yrs">SAP &harr; Anything</span></div>
+          <div class="stack-row"><span class="stack-name">Python</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#12c98b,#1B2482)" data-w="80%"></div></div><span class="stack-yrs">Data/Integration</span></div>
+          <div class="stack-row"><span class="stack-name">Intgr. Suite</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#12c98b,#1B2482)" data-w="80%"></div></div><span class="stack-yrs">PI/PO migration</span></div>
+          <div class="stack-row"><span class="stack-name">AI / LLM</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#8B48FF,#1B2482)" data-w="70%"></div></div><span class="stack-yrs">Agents / RAG</span></div>
+          <div class="stack-row"><span class="stack-name">Cloud AWS/Az</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#12c98b,#1B2482)" data-w="74%"></div></div><span class="stack-yrs">Side-by-side</span></div>
+          <div class="stack-row"><span class="stack-name">Kafka/Events</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#12c98b,#1B2482)" data-w="65%"></div></div><span class="stack-yrs">Real-time</span></div>
+          <div class="stack-row"><span class="stack-name">TradFi/DeFi</span><div class="stack-bw"><div class="stack-bar" style="background:linear-gradient(90deg,#fcb900,#1B2482)" data-w="75%"></div></div><span class="stack-yrs">CFA &middot; Blockchain</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     CONTACT / BOOKING
+════════════════════════════════════════ -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="contact__grid">
+
+      <div class="contact__stick">
+        <p class="sec-label">Book an Engagement</p>
+        <h2 class="sec-title">Make it happen.</h2>
+        <p style="font-size:1rem;color:var(--text-2);line-height:1.72;margin-bottom:8px">
+          Tell us what you need and when you need it.
+          We respond within <strong style="color:var(--text)">24 hours</strong> with availability
+          and a clear next step. No discovery workshop required.
+        </p>
+        <a href="pricing.html" style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:26px;padding:18px 22px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);transition:border-color var(--t),transform var(--t),box-shadow var(--t)" onmouseover="this.style.borderColor='rgba(139,72,255,.38)';this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(139,72,255,.1)'" onmouseout="this.style.borderColor='';this.style.transform='';this.style.boxShadow=''">
+          <div>
+            <div style="font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:4px">Rates &amp; Packages</div>
+            <div style="font-size:1rem;color:var(--text-2)">Two <strong style="color:var(--text)">basis rates</strong> &middot; automatic <strong style="color:var(--text)">commitment discount</strong> for longer engagements</div>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;color:var(--green-lt)"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="trust-list">
+          <div class="trust-item"><span class="trust-ck">✓</span>Response within 24 hours</div>
+          <div class="trust-item"><span class="trust-ck">✓</span>NDA on request, same day</div>
+          <div class="trust-item"><span class="trust-ck">✓</span>Swiss contract, CH law</div>
+          <div class="trust-item"><span class="trust-ck">✓</span>On-site or remote across Switzerland</div>
+        </div>
+      </div>
+
+      <div class="form-card reveal">
+        <div id="formBody">
+          <div class="form-title">Start your engagement</div>
+          <div class="form-sub">2 minutes. 24-hour response. No warm-up call required.</div>
+          <form id="bookingForm" novalidate>
+            <div class="f-row">
+              <div class="f-grp"><label class="f-lbl" for="fFirst">First Name *</label><input class="f-inp" type="text" id="fFirst" name="firstName" placeholder="Hans" required></div>
+              <div class="f-grp"><label class="f-lbl" for="fLast">Last Name *</label><input class="f-inp" type="text" id="fLast" name="lastName" placeholder="Müller" required></div>
+            </div>
+            <div class="f-row">
+              <div class="f-grp"><label class="f-lbl" for="fEmail">Email *</label><input class="f-inp" type="email" id="fEmail" name="email" placeholder="hans@company.ch" required></div>
+              <div class="f-grp"><label class="f-lbl" for="fPhone">Phone</label><input class="f-inp" type="tel" id="fPhone" name="phone" placeholder="+41 79 000 00 00"></div>
+            </div>
+            <div class="f-grp"><label class="f-lbl" for="fCompany">Company *</label><input class="f-inp" type="text" id="fCompany" name="company" placeholder="Musterfirma AG" required></div>
+            <div class="f-grp">
+              <label class="f-lbl" for="fService">Service Package *</label>
+              <select class="f-sel" id="fService" name="service" required>
+                <option value="" disabled selected>Select a package</option>
+                <option value="architect-retainer">Architect on Retainer</option>
+                <option value="focused-sprint">The Focused Sprint</option>
+                <option value="legacy-guardian">Legacy Guardian</option>
+                <option value="rnd-forge">R&amp;D Forge</option>
+                <option value="not-sure">Not sure yet &mdash; let&rsquo;s talk</option>
+              </select>
+            </div>
+            <div class="f-row">
+              <div class="f-grp"><label class="f-lbl" for="fDate">Preferred Start Date</label><input class="f-inp" type="date" id="fDate" name="startDate"></div>
+              <div class="f-grp">
+                <label class="f-lbl" for="fDur">Duration</label>
+                <select class="f-sel" id="fDur" name="duration">
+                  <option value="" disabled selected>Select duration</option>
+                  <option value="half-day">Half day</option>
+                  <option value="1-day">1 day</option>
+                  <option value="2-3-days">2&ndash;3 days</option>
+                  <option value="1-week">1 week sprint</option>
+                  <option value="monthly">Monthly engagement</option>
+                  <option value="ongoing">Ongoing / TBD</option>
+                </select>
+              </div>
+            </div>
+            <div class="f-grp"><label class="f-lbl" for="fMsg">What do you need?</label><textarea class="f-ta" id="fMsg" name="message" placeholder="System, problem, desired outcome &mdash; brief is fine."></textarea></div>
+            <button type="submit" class="f-submit">Send Booking Request &rarr;</button>
+            <p class="f-note">No spam. No CRM. Just a direct reply.</p>
+          </form>
+        </div>
+        <div class="f-success" id="formSuccess">
+          <div class="f-success-ico">&#9989;</div>
+          <div class="f-success-title">Request received.</div>
+          <div class="f-success-body">We&rsquo;ll review and reply within 24 hours.<br><strong>Direct answer on availability and next steps. No fluff.</strong></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <div class="footer__brand-name">Aaweg GmbH<span class="nav__logo-sub">&middot; Switzerland</span></div>
+        <p class="footer__brand-desc">Senior SAP architecture and engineering for the modern Swiss enterprise. Precise. Direct. Delivered.</p>
+      </div>
+      <div class="footer__cols">
+        <div class="footer__col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#services">Architect on Retainer</a></li>
+            <li><a href="#services">The Focused Sprint</a></li>
+            <li><a href="#services">Legacy Guardian</a></li>
+            <li><a href="#services">R&amp;D Forge</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#fieldnotes">Field Notes</a></li>
+            <li><a href="#moat">Why Aaweg</a></li>
+            <li><a href="#stack">Tech Stack</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bot">
+      <span class="footer__copy">&copy; 2026 Aaweg GmbH &middot; Switzerland &middot; All rights reserved</span>
+      <span class="footer__ch">🇨🇭 Swiss-made &middot; CH-law &middot; MWST-konform</span>
+    </div>
+  </div>
+</footer>
+
+<div class="float-cta" id="floatCta">
+  <a href="#contact">Book a Sprint &rarr;</a>
+</div>
+
+<script>
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 24), {passive:true});
+
+  // Mobile burger
+  const burger = document.getElementById('burger');
+  const navMob = document.getElementById('navMob');
+  burger.addEventListener('click', () => {
+    const o = navMob.classList.toggle('open');
+    burger.classList.toggle('open', o);
+    burger.setAttribute('aria-expanded', o);
+  });
+  document.querySelectorAll('.mnav').forEach(a => a.addEventListener('click', () => {
+    navMob.classList.remove('open'); burger.classList.remove('open');
+    burger.setAttribute('aria-expanded','false');
+  }));
+
+  // Scroll reveal
+  const ro = new IntersectionObserver(
+    entries => entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('vis');ro.unobserve(e.target);} }),
+    {threshold:0.1}
+  );
+  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+  // Stack bar animation
+  const bo = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.querySelectorAll('.stack-bar[data-w]').forEach((b,i) =>
+          setTimeout(() => b.style.width = b.dataset.w, i*80)
+        );
+        bo.unobserve(e.target);
+      }
+    });
+  }, {threshold:0.2});
+  document.querySelectorAll('.stack-panel').forEach(el => bo.observe(el));
+
+  // Service card CTA pre-fills form select
+  document.querySelectorAll('.svc-cta').forEach(cta => {
+    cta.addEventListener('click', () => {
+      const v = cta.closest('[data-svc]')?.dataset.svc;
+      const s = document.getElementById('fService');
+      if(v && s) s.value = v;
+    });
+  });
+
+  // Date min = today
+  const di = document.getElementById('fDate');
+  if(di) di.min = new Date().toISOString().split('T')[0];
+
+  // Form submit
+  const form = document.getElementById('bookingForm');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    let ok = true;
+    form.querySelectorAll('[required]').forEach(f => {
+      if(!f.value.trim()){
+        ok = false; f.classList.add('err');
+        f.addEventListener('input', () => f.classList.remove('err'), {once:true});
+      }
+    });
+    if(!ok) return;
+    const btn = form.querySelector('.f-submit');
+    btn.textContent = 'Sending…'; btn.disabled = true;
+    setTimeout(() => {
+      document.getElementById('formBody').style.display = 'none';
+      document.getElementById('formSuccess').classList.add('show');
+    }, 700);
+  });
+
+  // Smooth scroll with nav offset
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function(e) {
+      const t = document.querySelector(this.getAttribute('href'));
+      if(!t) return;
+      e.preventDefault();
+      const off = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) + 12;
+      window.scrollTo({top: t.getBoundingClientRect().top + scrollY - off, behavior:'smooth'});
+    });
+  });
+</script>
+</body>
+</html>
